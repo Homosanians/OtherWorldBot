@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NationDiscordBot.Services
+namespace DisgraceDiscordBot.Services
 {
     class DatabaseService
     {

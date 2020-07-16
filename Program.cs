@@ -8,10 +8,10 @@ using DSharpPlus.CommandsNext.Exceptions;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
-using NationDiscordBot.Commands;
+using DisgraceDiscordBot.Commands;
 using Newtonsoft.Json;
 
-namespace NationDiscordBot
+namespace DisgraceDiscordBot
 {
     public class Program
     {
@@ -132,7 +132,7 @@ namespace NationDiscordBot
         private Task Client_Ready(ReadyEventArgs e)
         {
             // let's log the fact that this event occured
-            e.Client.DebugLogger.LogMessage(LogLevel.Info, "ExampleBot", "Client is ready to process events.", DateTime.Now);
+            e.Client.DebugLogger.LogMessage(LogLevel.Info, "DisgraceDiscordBot", "Client is ready to process events.", DateTime.Now);
 
             // since this method is not async, let's return
             // a completed task, so that no additional work
@@ -144,7 +144,7 @@ namespace NationDiscordBot
         {
             // let's log the name of the guild that was just
             // sent to our client
-            e.Client.DebugLogger.LogMessage(LogLevel.Info, "ExampleBot", $"Guild available: {e.Guild.Name}", DateTime.Now);
+            e.Client.DebugLogger.LogMessage(LogLevel.Info, "DisgraceDiscordBot", $"Guild available: {e.Guild.Name}", DateTime.Now);
 
             // since this method is not async, let's return
             // a completed task, so that no additional work
@@ -156,7 +156,7 @@ namespace NationDiscordBot
         {
             // let's log the details of the error that just 
             // occured in our client
-            e.Client.DebugLogger.LogMessage(LogLevel.Error, "ExampleBot", $"Exception occured: {e.Exception.GetType()}: {e.Exception.Message}", DateTime.Now);
+            e.Client.DebugLogger.LogMessage(LogLevel.Error, "DisgraceDiscordBot", $"Exception occured: {e.Exception.GetType()}: {e.Exception.Message}", DateTime.Now);
 
             // since this method is not async, let's return
             // a completed task, so that no additional work
@@ -167,7 +167,7 @@ namespace NationDiscordBot
         private Task Commands_CommandExecuted(CommandExecutionEventArgs e)
         {
             // let's log the name of the command and user
-            e.Context.Client.DebugLogger.LogMessage(LogLevel.Info, "ExampleBot", $"{e.Context.User.Username} successfully executed '{e.Command.QualifiedName}'", DateTime.Now);
+            e.Context.Client.DebugLogger.LogMessage(LogLevel.Info, "DisgraceDiscordBot", $"{e.Context.User.Username} successfully executed '{e.Command.QualifiedName}'", DateTime.Now);
 
             // since this method is not async, let's return
             // a completed task, so that no additional work
@@ -178,7 +178,7 @@ namespace NationDiscordBot
         private async Task Commands_CommandErrored(CommandErrorEventArgs e)
         {
             // let's log the error details
-            e.Context.Client.DebugLogger.LogMessage(LogLevel.Error, "ExampleBot", $"{e.Context.User.Username} tried executing '{e.Command?.QualifiedName ?? "<unknown command>"}' but it errored: {e.Exception.GetType()}: {e.Exception.Message ?? "<no message>"}", DateTime.Now);
+            e.Context.Client.DebugLogger.LogMessage(LogLevel.Error, "DisgraceDiscordBot", $"{e.Context.User.Username} tried executing '{e.Command?.QualifiedName ?? "<unknown command>"}' but it errored: {e.Exception.GetType()}: {e.Exception.Message ?? "<no message>"}", DateTime.Now);
 
             // let's check if the error is a result of lack
             // of required permissions
@@ -193,7 +193,7 @@ namespace NationDiscordBot
                 var embed = new DiscordEmbedBuilder
                 {
                     Title = "Access denied",
-                    Description = $"{emoji} You do not have the permissions required to execute this command.",
+                    Description = $"{emoji} У вас нет привелегий для выполнения этой команды.",
                     Color = new DiscordColor(0xFF0000) // red
                 };
                 await e.Context.RespondAsync("", embed: embed);

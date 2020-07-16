@@ -8,7 +8,7 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 
-namespace NationDiscordBot.Commands
+namespace DisgraceDiscordBot.Commands
 {
     [Description("Команды пользователя.")]
     public class CommonCommands
