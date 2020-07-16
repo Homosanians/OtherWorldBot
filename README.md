@@ -4,7 +4,9 @@ Made for Other World community Discord server.
 
 ## Build and Run
 
-No building instructions
+```bash
+dotnet publish -c Release -f netcoreapp3.1 -r <arch>
+```
 
 ## Deploy
 
