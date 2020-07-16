@@ -2,7 +2,7 @@
 
 Made for Other World community Discord server.
 
-## Build and Run
+## Build
 
 ```bash
 dotnet publish -c Release -f netcoreapp3.1 -r <arch>
@@ -16,4 +16,9 @@ No daemon instructions
 
 ### Docker
 
-No docker support
+```bash
+curl -sSL https://get.docker.com | sudo sh
+sudo usermod -aG docker $USER
+docker build . homosanians:disgracediscordbot
+docker run homosanians:disgracediscordbot --name dbot
+```
