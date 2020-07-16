@@ -39,7 +39,6 @@ namespace DisgraceDiscordBot
             // then we want to instantiate our client
             this.Client = new DiscordClient(cfg);
             this.LogService = new LogService(Client);
-            this.ConfigService = new ConfigService(LogService);
 
             // If you are on Windows 7 and using .NETFX, install 
             // DSharpPlus.WebSocket.WebSocket4Net from NuGet,

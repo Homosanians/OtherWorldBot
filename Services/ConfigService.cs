@@ -16,7 +16,7 @@ namespace DisgraceDiscordBot.Services
                 {
                     configCache = GetConfig();
                 }
-
+                
                 return configCache;
             }
             set
@@ -27,23 +27,11 @@ namespace DisgraceDiscordBot.Services
         }
         private BotConfig configCache;
 
-        private LogService _logService;
-
         public ConfigService()
         {
             if (!File.Exists("config.json"))
             {
-                SetConfig(new BotConfig());
-            }
-        }
-
-        public ConfigService (LogService logService)
-        {
-            _logService = logService;
-
-            if (!File.Exists("config.json"))
-            {
-                logService.Log(DSharpPlus.LogLevel.Info, "ConfigService", "Config not exists");
+                System.Console.WriteLine("config.json was not found. Creating new one.");
                 SetConfig(new BotConfig());
             }
         }
@@ -52,7 +40,7 @@ namespace DisgraceDiscordBot.Services
         {
             var json = "";
             using (var fs = File.OpenRead("config.json"))
-            using (var sr = new StreamReader(fs, new UTF8Encoding(false)))
+            using (var sr = new StreamReader(fs, new UTF8Encoding(true)))
                 json = await sr.ReadToEndAsync();
 
             return JsonConvert.DeserializeObject<BotConfig>(json);
@@ -60,32 +48,30 @@ namespace DisgraceDiscordBot.Services
 
         public async Task SetConfigAsync(BotConfig config)
         {
-            if (_logService != null)
-                _logService.Log(DSharpPlus.LogLevel.Debug, "ConfigService", "Writing config file async");
+            var cfgjson = JsonConvert.SerializeObject(config, Formatting.Indented);
 
-            var cfgjson = JsonConvert.SerializeObject(config);
-
-            await File.WriteAllTextAsync("config.json", cfgjson);
+            using (var fs = File.OpenWrite("config.json"))
+            using (var sw = new StreamWriter(fs, new UTF8Encoding(true)))
+                await sw.WriteAsync(cfgjson);
         }
 
         public BotConfig GetConfig()
         {
             var json = "";
             using (var fs = File.OpenRead("config.json"))
-            using (var sr = new StreamReader(fs, new UTF8Encoding(false)))
+            using (var sr = new StreamReader(fs, new UTF8Encoding(true)))
                 json = sr.ReadToEnd();
-
+            
             return JsonConvert.DeserializeObject<BotConfig>(json);
         }
 
         public void SetConfig(BotConfig config)
         {
-            if (_logService != null)
-                _logService.Log(DSharpPlus.LogLevel.Debug, "ConfigService", "Writing config file");
+            var cfgjson = JsonConvert.SerializeObject(config, Formatting.Indented);
 
-            var cfgjson = JsonConvert.SerializeObject(config);
-
-            File.WriteAllText("config.json", cfgjson);
+            using (var fs = File.OpenWrite("config.json"))
+            using (var sw = new StreamWriter(fs, new UTF8Encoding(true)))
+                sw.Write(cfgjson);
         }
     }
 }
