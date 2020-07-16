@@ -1,8 +1,6 @@
 ﻿using DisgraceDiscordBot.Entities;
 using Newtonsoft.Json;
 using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DisgraceDiscordBot.Services
 {
@@ -36,42 +34,20 @@ namespace DisgraceDiscordBot.Services
             }
         }
 
-        public async Task<BotConfig> GetConfigAsync()
-        {
-            var json = "";
-            using (var fs = File.OpenRead("config.json"))
-            using (var sr = new StreamReader(fs, new UTF8Encoding(true)))
-                json = await sr.ReadToEndAsync();
-
-            return JsonConvert.DeserializeObject<BotConfig>(json);
-        }
-
-        public async Task SetConfigAsync(BotConfig config)
-        {
-            var cfgjson = JsonConvert.SerializeObject(config, Formatting.Indented);
-
-            using (var fs = File.OpenWrite("config.json"))
-            using (var sw = new StreamWriter(fs, new UTF8Encoding(true)))
-                await sw.WriteAsync(cfgjson);
-        }
-
         public BotConfig GetConfig()
         {
-            var json = "";
-            using (var fs = File.OpenRead("config.json"))
-            using (var sr = new StreamReader(fs, new UTF8Encoding(true)))
-                json = sr.ReadToEnd();
-            
-            return JsonConvert.DeserializeObject<BotConfig>(json);
+            using (var sr = new StreamReader("config.json"))
+            {
+                return JsonConvert.DeserializeObject<BotConfig>(sr.ReadToEnd());
+            }
         }
 
         public void SetConfig(BotConfig config)
         {
-            var cfgjson = JsonConvert.SerializeObject(config, Formatting.Indented);
-
-            using (var fs = File.OpenWrite("config.json"))
-            using (var sw = new StreamWriter(fs, new UTF8Encoding(true)))
-                sw.Write(cfgjson);
+            using (var sw = new StreamWriter("config.json"))
+            {
+                sw.Write(JsonConvert.SerializeObject(config, Formatting.Indented));
+            }
         }
     }
 }
