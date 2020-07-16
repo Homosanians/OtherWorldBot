@@ -3,8 +3,15 @@
 Made for Other World community Discord server.
 
 ## Build and Run
-Dotnet31
+
+No building instructions
 
 ## Deploy
-Daemon
-Docker
+
+### Daemon
+
+No daemon instructions
+
+### Docker
+
+No docker support
