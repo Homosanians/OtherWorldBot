@@ -9,7 +9,6 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using NationDiscordBot.Commands;
-using NationDiscordBot.Services;
 using Newtonsoft.Json;
 
 namespace NationDiscordBot
@@ -22,8 +21,6 @@ namespace NationDiscordBot
 
         public static void Main(string[] args)
         {
-            Console.ReadLine();
-
             // since we cannot make the entry method asynchronous,
             // let's pass the execution to asynchronous code
             var prog = new Program();
@@ -117,7 +114,8 @@ namespace NationDiscordBot
             this.Commands.CommandErrored += this.Commands_CommandErrored;
 
             // up next, let's register our commands
-            this.Commands.RegisterCommands<AddCountryCommand>();
+            this.Commands.RegisterCommands<CommonCommands>();
+            this.Commands.RegisterCommands<AdminCommands>();
 
             // finally, let's connect and log in
             await this.Client.ConnectAsync();
