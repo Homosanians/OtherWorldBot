@@ -40,8 +40,17 @@ namespace DisgraceDiscordBot.Commands
                 Color = DiscordColor.DarkGreen
             };
 
-            embed.AddField("Дания", "13", true);
+            embed.AddField("Дания", "Id: 12 Очки: 0", true);
             embed.AddField("Хуйхуй", "231", true);
+            embed.AddField("Дадая", "0", true);
+            embed.AddField("Дадая", "0", true);
+            embed.AddField("Дадая", "0", true);
+            embed.AddField("Дадая", "0", true);
+            embed.AddField("Дадая", "0", true);
+            embed.AddField("Дадая", "0", true);
+            embed.AddField("Дадая", "0", true);
+            embed.AddField("Дадая", "0", true);
+            embed.AddField("Дадая", "0", true);
             embed.AddField("Дадая", "0", true);
 
             await ctx.RespondAsync(null, false, embed.Build());
