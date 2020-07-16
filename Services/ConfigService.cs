@@ -65,9 +65,7 @@ namespace DisgraceDiscordBot.Services
 
             var cfgjson = JsonConvert.SerializeObject(config);
 
-            using (var fs = File.OpenRead("config.json"))
-            using (var sr = new StreamWriter(fs, new UTF8Encoding(false)))
-                await sr.WriteAsync(cfgjson);
+            await File.WriteAllTextAsync("config.json", cfgjson);
         }
 
         public BotConfig GetConfig()
@@ -87,9 +85,7 @@ namespace DisgraceDiscordBot.Services
 
             var cfgjson = JsonConvert.SerializeObject(config);
 
-            using (var fs = File.OpenRead("config.json"))
-            using (var sr = new StreamWriter(fs, new UTF8Encoding(false)))
-                sr.Write(cfgjson);
+            File.WriteAllText("config.json", cfgjson);
         }
     }
 }
