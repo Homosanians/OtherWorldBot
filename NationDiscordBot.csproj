@@ -3,6 +3,19 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <StartupObject>NationDiscordBot.Program</StartupObject>
+    <RepositoryType>Private</RepositoryType>
+    <Copyright>Alexander Emelyanov 2020</Copyright>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DSharpPlus" Version="3.2.3" />
+    <PackageReference Include="DSharpPlus.CommandsNext" Version="3.2.3" />
+    <PackageReference Include="DSharpPlus.Interactivity" Version="3.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Contexts\" />
+  </ItemGroup>
 
 </Project>
