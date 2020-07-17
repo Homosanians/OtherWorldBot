@@ -53,28 +53,36 @@ namespace DisgraceDiscordBot.Services
         {
             db.Countries.Add(country);
 
-            db.SaveChanges();
+            int result = db.SaveChanges();
 
-            return true;
+            if (result == 1)
+                return true;
+            else
+                return false;
         }
 
         public bool RemoveCountry(Country country)
         {
             db.Remove(country);
 
-            var result = db.SaveChanges();
-            Console.WriteLine("DELETE>>>"+result);
+            int result = db.SaveChanges();
 
-            return true;
+            if (result == 1)
+                return true;
+            else
+                return false;
         }
 
         public bool UpdateCountry(Country newCountry)
         {
             db.Update(newCountry);
 
-            db.SaveChanges();
+            int result = db.SaveChanges();
 
-            return true;
+            if (result == 1)
+                return true;
+            else
+                return false;
         }
     }
 }

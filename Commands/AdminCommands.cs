@@ -29,7 +29,14 @@ namespace DisgraceDiscordBot.Commands
         {
             await ctx.TriggerTypingAsync();
 
-            var foundCountry = databaseSrv.GetCountryByName(countryName);
+            Country foundCountry = null;
+
+            try
+            {
+                foundCountry = databaseSrv.GetCountryByName(countryName);
+            }
+            catch (Exception) { }
+
             if (foundCountry != null)
             {
                 var embedError = new DiscordEmbedBuilder
@@ -81,7 +88,7 @@ namespace DisgraceDiscordBot.Commands
 
         // сначало чек на существование, а потом всё остальное. если нет, то красная ошибка. если есть, то везде пишем название, даже если получили страну из ИД
         [Command("remove"), Description("Удаляет страну.")]
-        public async Task Remove(CommandContext ctx, [Description("Название страны.")] string country)
+        public async Task Remove(CommandContext ctx, [Description("Название страны.")] string countryName)
         {
             await ctx.TriggerTypingAsync();
 
@@ -89,7 +96,7 @@ namespace DisgraceDiscordBot.Commands
 
             try
             {
-                foundCountry = databaseSrv.GetCountryByName(country);
+                foundCountry = databaseSrv.GetCountryByName(countryName);
             }
             catch (Exception) { }
 
@@ -100,7 +107,7 @@ namespace DisgraceDiscordBot.Commands
                 {
                     Color = new DiscordColor(configSrv.BotConfig.BadColor),
                     Title = "Удаление страны",
-                    Description = $"Страна {country} не была найдена.",
+                    Description = $"Страна {countryName} не была найдена.",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                 };
 
@@ -117,7 +124,7 @@ namespace DisgraceDiscordBot.Commands
                 {
                     Color = new DiscordColor(configSrv.BotConfig.CommonColor),
                     Title = "Удаление страны",
-                    Description = $"Вы уверены, что хотите удалить страну {foundCountry.Name}?",
+                    Description = $"Вы уверены, что хотите удалить страну {countryName}?",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                 };
 
@@ -136,7 +143,7 @@ namespace DisgraceDiscordBot.Commands
                     {
                         Color = new DiscordColor(configSrv.BotConfig.TimeoutColor),
                         Title = "Удаление страны",
-                        Description = $"Время истекло. Страна {foundCountry.Name} не была удалена.",
+                        Description = $"Время истекло. Страна {countryName} не была удалена.",
                         Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                     };
                     await sentMessage.ModifyAsync(embed: embedCountryWasNotDeleted);
@@ -151,7 +158,7 @@ namespace DisgraceDiscordBot.Commands
                         {
                             Color = new DiscordColor(configSrv.BotConfig.GoodColor),
                             Title = "Удаление страны",
-                            Description = $"Вы подтвердили действие. Страна {foundCountry.Name} была успешно удалена.",
+                            Description = $"Вы подтвердили действие. Страна {countryName} была успешно удалена.",
                             Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                         };
 
@@ -163,7 +170,7 @@ namespace DisgraceDiscordBot.Commands
                         {
                             Color = new DiscordColor(configSrv.BotConfig.BadColor),
                             Title = "Удаление страны",
-                            Description = $"Произошла внутренняя ошибка. Страна {foundCountry.Name} не была удалена.",
+                            Description = $"Произошла внутренняя ошибка. Страна {countryName} не была удалена.",
                             Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                         };
 
@@ -176,7 +183,7 @@ namespace DisgraceDiscordBot.Commands
                     {
                         Color = new DiscordColor(configSrv.BotConfig.BadColor),
                         Title = "Удаление страны",
-                        Description = $"Вы отменили действие. Страна {country} не была удалена.",
+                        Description = $"Вы отменили действие. Страна {countryName} не была удалена.",
                         Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                     };
                     await sentMessage.ModifyAsync(embed: embedCancel);
