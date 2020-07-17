@@ -78,7 +78,7 @@ namespace DisgraceDiscordBot.Commands
         }
 
         // сначало чек на существование, а потом всё остальное. если нет, то красная ошибка. если есть, то везде пишем название, даже если получили страну из ИД
-        [Command("remove"), Description("Удаляет страну.")]
+        [Command("remove"), Aliases("del", "delete"), Description("Удаляет страну.")]
         public async Task Remove(CommandContext ctx, [RemainingText, Description("Название страны.")] string countryName)
         {
             await ctx.TriggerTypingAsync();
@@ -202,18 +202,6 @@ namespace DisgraceDiscordBot.Commands
                     Color = new DiscordColor(configSrv.BotConfig.WarningColor),
                     Title = "Начисление очков бесчестия",
                     Description = $"Страна {countryName} не была найдена.",
-                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
-                };
-
-                await ctx.RespondAsync(embed: embedError);
-            }
-            else if (amount == -527694)
-            {
-                var embedError = new DiscordEmbedBuilder
-                {
-                    Color = new DiscordColor(configSrv.BotConfig.WarningColor),
-                    Title = "Начисление очков бесчестия",
-                    Description = $"Введены символы. Невереное использование команды.",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                 };
 
