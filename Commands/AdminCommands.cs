@@ -29,15 +29,7 @@ namespace DisgraceDiscordBot.Commands
         {
             await ctx.TriggerTypingAsync();
 
-            Country foundCountry = null;
-            // BAN
-            try
-            {
-                foundCountry = databaseSrv.GetCountryByName(countryName);
-            }
-            catch (Exception) { }
-
-            if (foundCountry.Name == countryName)
+            if (databaseSrv.IsCountryExist(countryName))
             {
                 var embedError = new DiscordEmbedBuilder
                 {

@@ -30,20 +30,16 @@ namespace DisgraceDiscordBot.Services
             return countries;
         }
 
+        public bool IsCountryExist(string name)
+        {
+            return db.Countries
+                .Any(b => b.Name == name);
+        }
+
         public Country GetCountryByName(string name)
         {
             var country = db.Countries
-                .OrderBy(b => b.Name == name)
-                .First();
-
-            return country;
-        }
-
-        public Country GetCountryById(int id)
-        {
-            var country = db.Countries
-                .OrderBy(b => b.Id == id)
-                .First();
+                .First(b => b.Name == name);
 
             return country;
         }
