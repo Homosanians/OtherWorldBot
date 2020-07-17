@@ -25,7 +25,7 @@ namespace DisgraceDiscordBot.Commands
         }
 
         [Command("add"), Description("Добавляет страну.")]
-        public async Task Add(CommandContext ctx, [Description("Название страны.")] string countryName)
+        public async Task Add(CommandContext ctx, [RemainingText, Description("Название страны.")] string countryName)
         {
             await ctx.TriggerTypingAsync();
 
@@ -79,7 +79,7 @@ namespace DisgraceDiscordBot.Commands
 
         // сначало чек на существование, а потом всё остальное. если нет, то красная ошибка. если есть, то везде пишем название, даже если получили страну из ИД
         [Command("remove"), Description("Удаляет страну.")]
-        public async Task Remove(CommandContext ctx, [Description("Название страны.")] string countryName)
+        public async Task Remove(CommandContext ctx, [RemainingText, Description("Название страны.")] string countryName)
         {
             await ctx.TriggerTypingAsync();
 
@@ -183,7 +183,7 @@ namespace DisgraceDiscordBot.Commands
         }
 
         [Command("charge"), Description("Начисляет очки бесчестия стране.")]
-        public async Task Charge(CommandContext ctx, [Description("Название страны.")] string countryName, [Description("Количество очков бесчестия для добавления.")] int amount)
+        public async Task Charge(CommandContext ctx, [Description("Количество очков бесчестия для добавления.")] int amount, [RemainingText, Description("Название страны.")] string countryName)
         {
             await ctx.TriggerTypingAsync();
 
