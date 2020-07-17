@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using DisgraceDiscordBot.Services;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
@@ -13,8 +14,33 @@ namespace DisgraceDiscordBot.Commands
     [RequirePermissions(Permissions.ManageGuild)]
     public class AdminCommands
     {
-        [Command("add"), Description("Добавляет страну."), RequireOwner]
+        private ConfigService configSrv;
+
+        public AdminCommands(ConfigService configService)
+        {
+            configSrv = configService;
+        }
+
+        [Command("add"), Description("Добавляет страну.")]
         public async Task Add(CommandContext ctx, [Description("Название страны.")] string country)
+        {
+            await ctx.TriggerTypingAsync();
+
+            var embed = new DiscordEmbedBuilder
+            {
+                Color = DiscordColor.Green,
+                Title = "Создание страны",
+                Description = $"Вы успешно создали страну {country}.",
+                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+            };
+
+            // DATABASE ACTIONS HERE
+
+            await ctx.RespondAsync(embed: embed);
+        }
+
+        [Command("remove"), Description("Удаляет страну.")]
+        public async Task Remove(CommandContext ctx, [Description("Название страны.")] string country)
         {
             await ctx.TriggerTypingAsync();
 
@@ -25,9 +51,9 @@ namespace DisgraceDiscordBot.Commands
 
             var embed = new Discord​Embed​Builder()
             {
-                Color = DiscordColor.DarkGray,
-                Title = "Создание страны",
-                Description = $"Вы уверены, что хотите создать страну {country}?",
+                Color = new DiscordColor(configSrv.BotConfig.CommonColor),
+                Title = "Удаление страны",
+                Description = $"Вы уверены, что хотите удалить страну {country}?",
                 Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
             };
 
@@ -44,9 +70,9 @@ namespace DisgraceDiscordBot.Commands
             {
                 var embedCountryWasNotCreated = new DiscordEmbedBuilder
                 {
-                    Color = DiscordColor.Yellow,
-                    Title = "Создание страны",
-                    Description = $"Время истекло. Страна {country} не была создана.",
+                    Color = new DiscordColor(configSrv.BotConfig.TimeoutColor),
+                    Title = "Удаление страны",
+                    Description = $"Время истекло. Страна {country} не была удалена.",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                 };
                 await sentMessage.ModifyAsync(embed: embedCountryWasNotCreated);
@@ -55,54 +81,43 @@ namespace DisgraceDiscordBot.Commands
             {
                 var embedConfirm = new DiscordEmbedBuilder
                 {
-                    Color = DiscordColor.Green,
-                    Title = "Создание страны",
-                    Description = $"Вы подтвердили действие. Страна {country} была успешно создана.",
+                    Color = new DiscordColor(configSrv.BotConfig.GoodColor),
+                    Title = "Удаление страны",
+                    Description = $"Вы подтвердили действие. Страна {country} была успешно удалена.",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                 };
+
+                // DATABASE ACTIONS HERE
+
                 await sentMessage.ModifyAsync(embed: embedConfirm);
             }
             else if (reactionCtx.Emoji == emojiCancel)
             {
                 var embedCancel = new DiscordEmbedBuilder
                 {
-                    Color = DiscordColor.Red,
-                    Title = "Создание страны",
-                    Description = $"Вы отменили действие. Страна {country} не была создана.",
+                    Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                    Title = "Удаление страны",
+                    Description = $"Вы отменили действие. Страна {country} не была удалена.",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                 };
                 await sentMessage.ModifyAsync(embed: embedCancel);
             }
         }
 
-        [Command("remove"), Description("Удаляет страну."), RequireOwner]
-        public async Task Remove(CommandContext ctx, [Description("Название страны.")] string country)
-        {
-            await ctx.TriggerTypingAsync();
-
-            var embed = new Discord​Embed​Builder()
-            {
-                Title = "Подтвердите действие!",
-                Description = $"Вы уверены, что хотите удалить страну {null}",
-                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" },
-                Color = DiscordColor.DarkGreen
-            };
-
-            await ctx.RespondAsync(null, false, embed.Build());
-        }
-
-        [Command("charge"), Description("Добавляет очки бесчестия стране."), RequireOwner]
+        [Command("charge"), Description("Добавляет очки бесчестия стране.")]
         public async Task Charge(CommandContext ctx, [Description("Название страны.")] string country, [Description("Количество очков бесчестия для добавления.")] int amount)
         {
             await ctx.TriggerTypingAsync();
 
             var embed = new Discord​Embed​Builder()
             {
-                Title = "Уведомление о действие!",
-                Description = $"Вы начислили {null} очков бесчестия стране {null}",
-                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" },
-                Color = DiscordColor.DarkGreen
+                Color = new DiscordColor(configSrv.BotConfig.GoodColor),
+                Title = "Начисление очков бесчестия",
+                Description = $"Вы начислили {amount} очков бесчестия стране {country}",
+                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
             };
+
+            // DATABASE ACTIONS HERE
 
             await ctx.RespondAsync(null, false, embed.Build());
         }

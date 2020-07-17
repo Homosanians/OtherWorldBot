@@ -32,13 +32,19 @@ namespace DisgraceDiscordBot
                 TokenType = TokenType.Bot,
 
                 AutoReconnect = true,
-                LogLevel = LogLevel.Debug,
+                LogLevel = ConfigService.BotConfig.LogLevel,
                 UseInternalLogHandler = true
             };
 
             // then we want to instantiate our client
             this.Client = new DiscordClient(cfg);
             this.LogService = new LogService(Client);
+
+            var deps = new DependencyCollectionBuilder()
+                .AddInstance(ConfigService)
+                .AddInstance(LogService)
+                .AddInstance(new DatabaseService())
+                .Build();
 
             // If you are on Windows 7 and using .NETFX, install 
             // DSharpPlus.WebSocket.WebSocket4Net from NuGet,
@@ -89,7 +95,7 @@ namespace DisgraceDiscordBot
 
                 // enable responding in direct messages
                 EnableDms = true,
-
+                Dependencies = deps,
                 // enable mentioning the bot as a command prefix
                 EnableMentionPrefix = true
             };
