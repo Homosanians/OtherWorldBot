@@ -104,22 +104,59 @@ namespace DisgraceDiscordBot.Commands
             }
         }
 
-        [Command("charge"), Description("Добавляет очки бесчестия стране.")]
+        [Command("charge"), Description("Начисляет очки бесчестия стране.")]
         public async Task Charge(CommandContext ctx, [Description("Название страны.")] string country, [Description("Количество очков бесчестия для добавления.")] int amount)
         {
             await ctx.TriggerTypingAsync();
 
-            var embed = new Discord​Embed​Builder()
+            if (amount > 0)
             {
-                Color = new DiscordColor(configSrv.BotConfig.GoodColor),
-                Title = "Начисление очков бесчестия",
-                Description = $"Вы начислили {amount} очков бесчестия стране {country}",
-                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
-            };
+                // Начисляет
 
-            // DATABASE ACTIONS HERE
+                var embed = new Discord​Embed​Builder()
+                {
+                    Color = new DiscordColor(configSrv.BotConfig.GoodColor),
+                    Title = "Начисление очков бесчестия",
+                    Description = $"Вы начислили {amount} очков бесчестия стране {country}",
+                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                };
 
-            await ctx.RespondAsync(null, false, embed.Build());
+
+                // DATABASE ACTIONS HERE
+
+                await ctx.RespondAsync(null, false, embed.Build());
+            }
+            else if (amount < 0)
+            {
+                // Списывает
+
+                var embed = new Discord​Embed​Builder()
+                {
+                    Color = new DiscordColor(configSrv.BotConfig.GoodColor),
+                    Title = "Списание очков бесчестия",
+                    Description = $"Вы списали {Math.Abs(amount)} очков бесчестия стране {country}",
+                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                };
+
+
+                // DATABASE ACTIONS HERE
+
+                await ctx.RespondAsync(null, false, embed.Build());
+            }
+            else
+            {
+                // Попытка списание/начисления 0 очков или исключение
+
+                var embed = new Discord​Embed​Builder()
+                {
+                    Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                    Title = "Произошла ошибка",
+                    Description = $"Убедитесь, что вы используете команду правильно.",
+                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                };
+
+                await ctx.RespondAsync(null, false, embed.Build());
+            }
         }
     }
 }
