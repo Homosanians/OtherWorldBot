@@ -14,7 +14,7 @@ namespace DisgraceDiscordBot.Entities
 
         [JsonProperty("LogLevel")]
         public LogLevel LogLevel { get; set; } = LogLevel.Debug;
-
+        // можно просто стринг
         [JsonProperty("GoodColor")]
         public int GoodColor { get; set; } = 0x00FF00;
 
