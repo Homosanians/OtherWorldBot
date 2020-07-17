@@ -22,6 +22,7 @@ namespace DisgraceDiscordBot
         public LogService LogService { get; set; }
         public ConfigService ConfigService { get; set; }
         public DatabaseService DatabaseService { get; set; }
+        public ScheduleUpdateService ScheduleUpdateService { get; set; }
 
         public async Task InitAsync()
         {
@@ -41,12 +42,13 @@ namespace DisgraceDiscordBot
             this.Client = new DiscordClient(cfg);
             this.LogService = new LogService(Client);
             this.DatabaseService = new DatabaseService();
+            this.ScheduleUpdateService = new ScheduleUpdateService(LogService, DatabaseService);
 
             var deps = new DependencyCollectionBuilder()
                 .AddInstance(ConfigService)
                 .AddInstance(LogService)
                 .AddInstance(DatabaseService)
-                .AddInstance(new ScheduleUpdateService(DatabaseService))
+                .AddInstance(ScheduleUpdateService)
                 .Build();
 
             // If you are on Windows 7 and using .NETFX, install 

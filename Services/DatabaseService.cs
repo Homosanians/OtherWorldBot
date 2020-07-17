@@ -14,6 +14,8 @@ namespace DisgraceDiscordBot.Services
         // Collection name: Counties
         // Entry name: Country
 
+        // may be semaphore limit 1??
+        
         private ApplicationContext db;
 
         public DatabaseService()
