@@ -78,6 +78,10 @@ namespace DisgraceDiscordBot.Services
         {
             newCountry.LastUpdateTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
+            // Cannot be less than zero
+            if (newCountry.DisgracePoints < 0)
+                newCountry.DisgracePoints = 0;
+
             db.Update(newCountry);
 
             int result = db.SaveChanges();
@@ -87,9 +91,5 @@ namespace DisgraceDiscordBot.Services
             else
                 return false;
         }
-
-        // newCountry.LastUpdateTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        // convert to @day
-        // if today is @day+1 >> make less pts
     }
 }

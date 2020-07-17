@@ -288,7 +288,7 @@ namespace DisgraceDiscordBot.Commands
                             {
                                 Color = new DiscordColor(configSrv.BotConfig.GoodColor),
                                 Title = "Списание очков бесчестия",
-                                Description = $"Вы попробовали списать {Math.Abs(amount)} очков бесчестия, но только {previousValue} было списано. Теперь страна {countryName} имеет {foundCountry.DisgracePoints} очков бесчестия.",
+                                Description = $"Вы попытались списать {Math.Abs(amount)} очков бесчестия, но только {previousValue} было списано. Теперь страна {countryName} имеет {foundCountry.DisgracePoints} очков бесчестия.",
                                 Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                             };
 
