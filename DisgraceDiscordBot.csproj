@@ -6,12 +6,15 @@
     <StartupObject>DisgraceDiscordBot.Program</StartupObject>
     <RepositoryType>Private</RepositoryType>
     <Copyright>Alexander Emelyanov 2020</Copyright>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="DSharpPlus" Version="3.2.3" />
     <PackageReference Include="DSharpPlus.CommandsNext" Version="3.2.3" />
     <PackageReference Include="DSharpPlus.Interactivity" Version="3.2.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
   </ItemGroup>
 
   <ItemGroup>
