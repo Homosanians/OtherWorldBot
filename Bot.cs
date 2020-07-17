@@ -21,6 +21,7 @@ namespace DisgraceDiscordBot
         public CommandsNextModule Commands { get; set; }
         public LogService LogService { get; set; }
         public ConfigService ConfigService { get; set; }
+        public DatabaseService DatabaseService { get; set; }
 
         public async Task InitAsync()
         {
@@ -39,11 +40,12 @@ namespace DisgraceDiscordBot
             // then we want to instantiate our client
             this.Client = new DiscordClient(cfg);
             this.LogService = new LogService(Client);
+            this.DatabaseService = new DatabaseService();
 
             var deps = new DependencyCollectionBuilder()
                 .AddInstance(ConfigService)
                 .AddInstance(LogService)
-                .AddInstance(new DatabaseService())
+                .AddInstance(DatabaseService)
                 .Build();
 
             // If you are on Windows 7 and using .NETFX, install 

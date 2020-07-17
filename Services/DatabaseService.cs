@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DisgraceDiscordBot.Services
 {
-    class DatabaseService
+    public class DatabaseService
     {
         // SQLite3 (EF6)
         // Databse file: bot.db
@@ -15,43 +15,62 @@ namespace DisgraceDiscordBot.Services
         // Collection name: Counties
         // Entry name: Country
 
+        private ApplicationContext db;
+
         public DatabaseService()
         {
-            Console.WriteLine("алё");
+            db = new ApplicationContext();
+        }
 
-            using (var db = new ApplicationContext())
-            {
-                // Create
-                Console.WriteLine("Add New Employee: ");
-                db.Countries.Add(new Country { FirstName = "John", LastName = "Doe", Age = 55 });
-                db.SaveChanges();
+        public Country[] GetAllCountries()
+        {
+            var countries = db.Countries
+                .OrderBy(b => b.Id)
+                .ToArray();
 
-                Console.WriteLine("Employee has been added sucessfully.");
+            return countries;
+        }
 
-                // Read
-                Console.WriteLine("Querying table for that employee.");
-                var employee = db.Employees
-                    .OrderBy(b => b.Id)
-                    .First();
+        public Country GetCountryByName(string name)
+        {
+            var country = db.Countries
+                .OrderBy(b => b.Name == name)
+                .First();
 
-                Console.WriteLine("The employee found: {0} {1} and is {2} years old.", employee.FirstName, employee.LastName, employee.Age);
+            return country;
+        }
 
-                // Update
-                Console.WriteLine("Updating the employee first name and age.");
+        public Country GetCountryById(int id)
+        {
+            var country = db.Countries
+                .OrderBy(b => b.Id == id)
+                .First();
 
-                employee.FirstName = "Louis";
-                employee.Age = 90;
+            return country;
+        }
 
-                Console.WriteLine("Newly updated employee is: {0} {1} and is {2} years old.", employee.FirstName, employee.LastName, employee.Age);
+        public bool SetCountry(Country country)
+        {
+            db.Countries.Add(country);
 
-                db.SaveChanges();
+            db.SaveChanges();
 
-                // Delete
-                Console.WriteLine("Delete the employee.");
+            return true;
+        }
 
-                db.Remove(employee);
-                db.SaveChanges();
-            }
+        public bool RemoveCountry(Country country)
+        {
+            db.Remove(country);
+
+            var result = db.SaveChanges();
+            Console.WriteLine("DELETE>>>"+result);
+
+            return true;
+        }
+
+        public bool UpdateCountry(int id, Country newCountry)
+        {
+            return false;
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DisgraceDiscordBot.Services;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
@@ -13,6 +14,15 @@ namespace DisgraceDiscordBot.Commands
     [Description("Команды пользователя.")]
     public class CommonCommands
     {
+        private ConfigService configSrv;
+        private DatabaseService databaseSrv;
+
+        public CommonCommands(ConfigService configService, DatabaseService databaseService)
+        {
+            configSrv = configService;
+            databaseSrv = databaseService;
+        }
+
         [Command("ping")]
         [Description("Показывает пинг клиента")]
         [Aliases("pong")]
@@ -32,28 +42,36 @@ namespace DisgraceDiscordBot.Commands
         {
             await ctx.TriggerTypingAsync();
 
-            var embed = new Discord​Embed​Builder()
+            var countries = databaseSrv.GetAllCountries();
+
+            if (countries.Length == 0)
             {
-                Title = "Страны",
-                Description = "Суки, выкусите",
-                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" },
-                Color = DiscordColor.DarkGreen
-            };
+                var embed = new Discord​Embed​Builder()
+                {
+                    Title = "Страны",
+                    Description = "Ни одна страна не была создана.",
+                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" },
+                    Color = new DiscordColor(configSrv.BotConfig.TimeoutColor)
+                };
 
-            embed.AddField("Дания", "Id: 12 Очки: 0", true);
-            embed.AddField("Хуйхуй", "231", true);
-            embed.AddField("Дадая", "0", true);
-            embed.AddField("Дадая", "0", true);
-            embed.AddField("Дадая", "0", true);
-            embed.AddField("Дадая", "0", true);
-            embed.AddField("Дадая", "0", true);
-            embed.AddField("Дадая", "0", true);
-            embed.AddField("Дадая", "0", true);
-            embed.AddField("Дадая", "0", true);
-            embed.AddField("Дадая", "0", true);
-            embed.AddField("Дадая", "0", true);
+                await ctx.RespondAsync(null, false, embed.Build());
+            }
+            else
+            {
+                var embed = new Discord​Embed​Builder()
+                {
+                    Title = "Страны",
+                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" },
+                    Color = new DiscordColor(configSrv.BotConfig.GoodColor)
+                };
 
-            await ctx.RespondAsync(null, false, embed.Build());
+                foreach (var entry in countries)
+                {
+                    embed.AddField(entry.Name, $"Id: {entry.Id} Очки: {entry.DisgracePoints}", true);
+                }
+
+                await ctx.RespondAsync(null, false, embed.Build());
+            }
         }
     }
 }
