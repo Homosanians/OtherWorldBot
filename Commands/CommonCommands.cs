@@ -49,7 +49,7 @@ namespace DisgraceDiscordBot.Commands
                 var embed = new Discord​Embed​Builder()
                 {
                     Title = "Страны",
-                    Description = "Ни одна страна не была создана.",
+                    Description = "Ни одна страна не была найдена.",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" },
                     Color = new DiscordColor(configSrv.BotConfig.TimeoutColor)
                 };

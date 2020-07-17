@@ -29,37 +29,53 @@ namespace DisgraceDiscordBot.Commands
         {
             await ctx.TriggerTypingAsync();
 
-            // DATABASE ACTIONS HERE
-            var entry = new Country();
-            entry.Name = countryName;
-            entry.DisgracePoints = 0;
-            entry.LastUpdateTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-
-            var entryAdded = databaseSrv.SetCountry(entry);
-
-            if (entryAdded)
-            {
-                var embedSuccess = new DiscordEmbedBuilder
-                {
-                    Color = new DiscordColor(configSrv.BotConfig.GoodColor),
-                    Title = "Создание страны",
-                    Description = $"Вы успешно создали страну {countryName}.",
-                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
-                };
-
-                await ctx.RespondAsync(embed: embedSuccess);
-            }
-            else
+            var foundCountry = databaseSrv.GetCountryByName(countryName);
+            if (foundCountry != null)
             {
                 var embedError = new DiscordEmbedBuilder
                 {
                     Color = new DiscordColor(configSrv.BotConfig.BadColor),
                     Title = "Создание страны",
-                    Description = $"Произошла внутренняя ошибка. Страна {countryName} не была создана.",
+                    Description = $"Страна {countryName} не была создана, поскольку она уже существует.",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                 };
 
                 await ctx.RespondAsync(embed: embedError);
+            }
+            else
+            {
+                // DATABASE ACTIONS HERE
+                var entry = new Country();
+                entry.Name = countryName;
+                entry.DisgracePoints = 0;
+                entry.LastUpdateTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+                var entryAdded = databaseSrv.SetCountry(entry);
+
+                if (entryAdded)
+                {
+                    var embedSuccess = new DiscordEmbedBuilder
+                    {
+                        Color = new DiscordColor(configSrv.BotConfig.GoodColor),
+                        Title = "Создание страны",
+                        Description = $"Вы успешно создали страну {countryName}.",
+                        Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                    };
+
+                    await ctx.RespondAsync(embed: embedSuccess);
+                }
+                else
+                {
+                    var embedError = new DiscordEmbedBuilder
+                    {
+                        Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                        Title = "Создание страны",
+                        Description = $"Произошла внутренняя ошибка. Страна {countryName} не была создана.",
+                        Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                    };
+
+                    await ctx.RespondAsync(embed: embedError);
+                }
             }
         }
 
@@ -73,17 +89,7 @@ namespace DisgraceDiscordBot.Commands
 
             try
             {
-                Country countryById = databaseSrv.GetCountryById(int.Parse(country));
-                if (countryById != null)
-                    foundCountry = countryById;
-            }
-            catch (Exception) { }
-
-            try
-            {
-                Country countryByName = databaseSrv.GetCountryByName(country);
-                if (countryByName != null)
-                    foundCountry = countryByName;
+                foundCountry = databaseSrv.GetCountryByName(country);
             }
             catch (Exception) { }
 
