@@ -14,17 +14,23 @@ namespace DisgraceDiscordBot.Entities
 
         [JsonProperty("LogLevel")]
         public LogLevel LogLevel { get; set; } = LogLevel.Debug;
-        // можно просто стринг
+
+        [JsonProperty("UpdateDecreaseValue")]
+        public int UpdateDecreaseValue { get; set; } = 2;
+
+        [JsonProperty("UpdateRateInMinutes")]
+        public int UpdateRateInMinutes { get; set; } = 10;
+
         [JsonProperty("GoodColor")]
-        public int GoodColor { get; set; } = 0x00FF00;
+        public string GoodColor { get; set; } = "00FF00";
 
         [JsonProperty("BadColor")]
-        public int BadColor { get; set; } = 0xFF0000;
+        public string BadColor { get; set; } = "FF0000";
 
-        [JsonProperty("TimeoutColor")]
-        public int TimeoutColor { get; set; } = 0xFFFF00;
+        [JsonProperty("WarningColor")]
+        public string WarningColor { get; set; } = "FFFF00";
 
         [JsonProperty("CommonColor")]
-        public int CommonColor { get; set; } = 0x404040;
+        public string CommonColor { get; set; } = "404040";
     }
 }

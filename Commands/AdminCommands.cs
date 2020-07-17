@@ -96,7 +96,7 @@ namespace DisgraceDiscordBot.Commands
                 // Error occured
                 var embedError = new DiscordEmbedBuilder
                 {
-                    Color = new DiscordColor(configSrv.BotConfig.TimeoutColor),
+                    Color = new DiscordColor(configSrv.BotConfig.WarningColor),
                     Title = "Удаление страны",
                     Description = $"Страна {countryName} не была найдена.",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
@@ -132,7 +132,7 @@ namespace DisgraceDiscordBot.Commands
                 {
                     var embedCountryWasNotDeleted = new DiscordEmbedBuilder
                     {
-                        Color = new DiscordColor(configSrv.BotConfig.TimeoutColor),
+                        Color = new DiscordColor(configSrv.BotConfig.WarningColor),
                         Title = "Удаление страны",
                         Description = $"Время истекло. Страна {countryName} не была удалена.",
                         Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
@@ -199,7 +199,7 @@ namespace DisgraceDiscordBot.Commands
             {
                 var embedError = new DiscordEmbedBuilder
                 {
-                    Color = new DiscordColor(configSrv.BotConfig.TimeoutColor),
+                    Color = new DiscordColor(configSrv.BotConfig.WarningColor),
                     Title = "Начисление очков бесчестия",
                     Description = $"Страна {countryName} не была найдена.",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }

@@ -11,16 +11,17 @@ namespace DisgraceDiscordBot.Services
     public class ScheduleUpdateService
     {
         private readonly LogService _logService;
+        private readonly ConfigService _configService;
         private readonly DatabaseService _databaseService;
 
-        public ScheduleUpdateService(LogService logService, DatabaseService databaseService)
+        public ScheduleUpdateService(LogService logService, ConfigService configService, DatabaseService databaseService)
         {
             _logService = logService;
+            _configService = configService;
             _databaseService = databaseService;
 
-            // Create & enable a 30 minutes timer 
-            //Timer scheduleTimer = new Timer(1800000);
-            Timer scheduleTimer = new Timer(5 * 1000); // ms
+            // Create & enable the timer 
+            Timer scheduleTimer = new Timer(_configService.BotConfig.UpdateRateInMinutes * 60 * 1000); // ms by default
             scheduleTimer.Elapsed += OnTimedEvent;
             scheduleTimer.Enabled = true;
         }
@@ -29,7 +30,7 @@ namespace DisgraceDiscordBot.Services
         {
             _logService.Log(LogLevel.Info, "ScheduleUpdateService", "Starting update routine...");
 
-            int today = DateTime.UtcNow.Day+1;
+            int today = DateTime.UtcNow.Day;
             
             var entries = await _databaseService.GetAllCountriesAsync();
 
@@ -37,15 +38,21 @@ namespace DisgraceDiscordBot.Services
             {
                 int lastUpdateDay = TimeUtil.UnixTimeStampToDateTime(entry.LastUpdateTimestamp).Day;
 
-                await _databaseService.UpdateCountryAsync(entry);
-                if (lastUpdateDay < today)
+                if (lastUpdateDay != today)
                 {
-                    // TODO: Config
-                    entry.DisgracePoints -= 2;
+                    entry.DisgracePoints -= _configService.BotConfig.UpdateDecreaseValue;
 
                     await _databaseService.UpdateCountryAsync(entry);
                 }
             }
+        }
+
+        public TimeSpan GetTimeTillUpdate()
+        {
+            DateTime now = DateTime.UtcNow;
+            DateTime tomorrow = now.AddDays(1).Date;
+
+            return tomorrow - now;
         }
     }
 }

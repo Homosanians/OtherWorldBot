@@ -42,7 +42,7 @@ namespace DisgraceDiscordBot
             this.Client = new DiscordClient(cfg);
             this.LogService = new LogService(Client);
             this.DatabaseService = new DatabaseService();
-            this.ScheduleUpdateService = new ScheduleUpdateService(LogService, DatabaseService);
+            this.ScheduleUpdateService = new ScheduleUpdateService(LogService, ConfigService, DatabaseService);
 
             var deps = new DependencyCollectionBuilder()
                 .AddInstance(ConfigService)
@@ -156,7 +156,7 @@ namespace DisgraceDiscordBot
         {
             // let's log the details of the error that just 
             // occured in our client
-            e.Client.DebugLogger.LogMessage(LogLevel.Error, "DisgraceDiscordBot", $"Exception occured: {e.Exception.GetType()}: {e.Exception.Message}", DateTime.Now);
+            e.Client.DebugLogger.LogMessage(LogLevel.Error, "DisgraceDiscordBot", $"Exception occured: {e.Exception.GetType()}: {e.Exception.Message}\n{e.Exception.StackTrace}", DateTime.Now);
 
             // since this method is not async, let's return
             // a completed task, so that no additional work
@@ -178,7 +178,7 @@ namespace DisgraceDiscordBot
         private async Task Commands_CommandErrored(CommandErrorEventArgs e)
         {
             // let's log the error details
-            e.Context.Client.DebugLogger.LogMessage(LogLevel.Error, "DisgraceDiscordBot", $"{e.Context.User.Username} tried executing '{e.Command?.QualifiedName ?? "<unknown command>"}' but it errored: {e.Exception.GetType()}: {e.Exception.Message ?? "<no message>"}", DateTime.Now);
+            e.Context.Client.DebugLogger.LogMessage(LogLevel.Error, "DisgraceDiscordBot", $"{e.Context.User.Username} tried executing '{e.Command?.QualifiedName ?? "<unknown command>"}' but it errored: {e.Exception.GetType()}: {e.Exception.Message ?? "<no message>"}\n{e.Exception.StackTrace}", DateTime.Now);
 
             // let's check if the error is a result of lack
             // of required permissions
