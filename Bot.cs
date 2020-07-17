@@ -46,6 +46,7 @@ namespace DisgraceDiscordBot
                 .AddInstance(ConfigService)
                 .AddInstance(LogService)
                 .AddInstance(DatabaseService)
+                .AddInstance(new ScheduleUpdateService(DatabaseService))
                 .Build();
 
             // If you are on Windows 7 and using .NETFX, install 

@@ -30,14 +30,14 @@ namespace DisgraceDiscordBot.Commands
             await ctx.TriggerTypingAsync();
 
             Country foundCountry = null;
-
+            // BAN
             try
             {
                 foundCountry = databaseSrv.GetCountryByName(countryName);
             }
             catch (Exception) { }
 
-            if (foundCountry != null)
+            if (foundCountry.Name == countryName)
             {
                 var embedError = new DiscordEmbedBuilder
                 {
@@ -191,18 +191,11 @@ namespace DisgraceDiscordBot.Commands
         }
 
         [Command("charge"), Description("Начисляет очки бесчестия стране.")]
-        public async Task Charge(CommandContext ctx, [Description("Название страны.")] string countryName, [Description("Количество очков бесчестия для добавления.")] string amountStr)
+        public async Task Charge(CommandContext ctx, [Description("Название страны.")] string countryName, [Description("Количество очков бесчестия для добавления.")] int amount)
         {
             await ctx.TriggerTypingAsync();
-            
-            Country foundCountry = null;
-            int amount = -527694; // Этот костыль идёт в музей
 
-            try
-            {
-                amount = int.Parse(amountStr);
-            }
-            catch (Exception) { }
+            Country foundCountry = null;
 
             try
             {
@@ -243,7 +236,7 @@ namespace DisgraceDiscordBot.Commands
                     // DATABASE ACTIONS HERE
                     foundCountry.DisgracePoints += amount;
                     bool successed = databaseSrv.UpdateCountry(foundCountry);
-                    
+
                     if (successed)
                     {
                         var embed = new Discord​Embed​Builder()
@@ -277,7 +270,7 @@ namespace DisgraceDiscordBot.Commands
                     if (foundCountry.DisgracePoints + amount < 0)
                     {
                         int previousValue = foundCountry.DisgracePoints;
-                        
+
                         // DATABASE ACTIONS HERE
                         foundCountry.DisgracePoints = 0;
                         bool successed = databaseSrv.UpdateCountry(foundCountry);
@@ -312,7 +305,7 @@ namespace DisgraceDiscordBot.Commands
                         // DATABASE ACTIONS HERE
                         foundCountry.DisgracePoints += amount;
                         bool successed = databaseSrv.UpdateCountry(foundCountry);
-                        
+
                         if (successed)
                         {
                             var embed = new Discord​Embed​Builder()
