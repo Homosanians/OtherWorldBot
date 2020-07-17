@@ -26,7 +26,7 @@ namespace DisgraceDiscordBot.Services
             db = new ApplicationContext();
         }
 
-        public async Task<Country[]> GetAllCountries()
+        public async Task<Country[]> GetAllCountriesAsync()
         {
             await ss.WaitAsync();
 
@@ -38,7 +38,7 @@ namespace DisgraceDiscordBot.Services
             return countries;
         }
 
-        public async Task<bool> IsCountryExist(string name)
+        public async Task<bool> IsCountryExistAsync(string name)
         {
             await ss.WaitAsync();
 
@@ -50,7 +50,7 @@ namespace DisgraceDiscordBot.Services
             return result;
         }
 
-        public async Task<Country> GetCountryByName(string name)
+        public async Task<Country> GetCountryByNameAsync(string name)
         {
             await ss.WaitAsync();
 
@@ -62,7 +62,7 @@ namespace DisgraceDiscordBot.Services
             return country;
         }
 
-        public async Task<bool> SetCountry(Country country)
+        public async Task<bool> SetCountryAsync(Country country)
         {
             country.LastUpdateTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
@@ -80,7 +80,7 @@ namespace DisgraceDiscordBot.Services
                 return false;
         }
 
-        public async Task<bool> RemoveCountry(Country country)
+        public async Task<bool> RemoveCountryAsync(Country country)
         {
             db.Remove(country);
 
@@ -96,7 +96,7 @@ namespace DisgraceDiscordBot.Services
                 return false;
         }
 
-        public async Task<bool> UpdateCountry(Country newCountry)
+        public async Task<bool> UpdateCountryAsync(Country newCountry)
         {
             newCountry.LastUpdateTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 

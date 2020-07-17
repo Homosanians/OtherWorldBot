@@ -31,19 +31,19 @@ namespace DisgraceDiscordBot.Services
 
             int today = DateTime.UtcNow.Day+1;
             
-            var entries = await _databaseService.GetAllCountries();
+            var entries = await _databaseService.GetAllCountriesAsync();
 
             foreach (var entry in entries)
             {
                 int lastUpdateDay = TimeUtil.UnixTimeStampToDateTime(entry.LastUpdateTimestamp).Day;
 
-                await _databaseService.UpdateCountry(entry);
+                await _databaseService.UpdateCountryAsync(entry);
                 if (lastUpdateDay < today)
                 {
                     // TODO: Config
                     entry.DisgracePoints -= 2;
 
-                    await _databaseService.UpdateCountry(entry);
+                    await _databaseService.UpdateCountryAsync(entry);
                 }
             }
         }
