@@ -65,7 +65,7 @@ namespace DisgraceDiscordBot.Commands
                 {
                     Title = "Страны",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" },
-                    Color = new DiscordColor(configSrv.BotConfig.GoodColor)
+                    Color = new DiscordColor(configSrv.BotConfig.CommonColor)
                 };
 
                 foreach (var entry in countries)
