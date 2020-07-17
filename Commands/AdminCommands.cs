@@ -33,7 +33,7 @@ namespace DisgraceDiscordBot.Commands
             {
                 var embedError = new DiscordEmbedBuilder
                 {
-                    Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                    Color = new DiscordColor(configSrv.BotConfig.WarningColor),
                     Title = "Создание страны",
                     Description = $"Страна {countryName} не была создана, поскольку она уже существует.",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
@@ -211,7 +211,7 @@ namespace DisgraceDiscordBot.Commands
             {
                 var embedError = new DiscordEmbedBuilder
                 {
-                    Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                    Color = new DiscordColor(configSrv.BotConfig.WarningColor),
                     Title = "Начисление очков бесчестия",
                     Description = $"Введены символы. Невереное использование команды.",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
