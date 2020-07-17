@@ -67,7 +67,7 @@ namespace DisgraceDiscordBot.Commands
 
                 foreach (var entry in countries)
                 {
-                    embed.AddField(entry.Name, $"Id: {entry.Id} Очки: {entry.DisgracePoints}", true);
+                    embed.AddField(entry.Name, $"Бесчестие: {entry.DisgracePoints}", false);
                 }
 
                 await ctx.RespondAsync(null, false, embed.Build());

@@ -55,7 +55,6 @@ namespace DisgraceDiscordBot.Commands
                 var entry = new Country();
                 entry.Name = countryName;
                 entry.DisgracePoints = 0;
-                entry.LastUpdateTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
                 var entryAdded = databaseSrv.SetCountry(entry);
 
@@ -105,7 +104,7 @@ namespace DisgraceDiscordBot.Commands
                 // Error occured
                 var embedError = new DiscordEmbedBuilder
                 {
-                    Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                    Color = new DiscordColor(configSrv.BotConfig.TimeoutColor),
                     Title = "Удаление страны",
                     Description = $"Страна {countryName} не была найдена.",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
@@ -192,11 +191,18 @@ namespace DisgraceDiscordBot.Commands
         }
 
         [Command("charge"), Description("Начисляет очки бесчестия стране.")]
-        public async Task Charge(CommandContext ctx, [Description("Название страны.")] string countryName, [Description("Количество очков бесчестия для добавления.")] int amount)
+        public async Task Charge(CommandContext ctx, [Description("Название страны.")] string countryName, [Description("Количество очков бесчестия для добавления.")] string amountStr)
         {
             await ctx.TriggerTypingAsync();
-
+            
             Country foundCountry = null;
+            int amount = -527694; // Этот костыль идёт в музей
+
+            try
+            {
+                amount = int.Parse(amountStr);
+            }
+            catch (Exception) { }
 
             try
             {
@@ -206,12 +212,23 @@ namespace DisgraceDiscordBot.Commands
 
             if (foundCountry == null)
             {
-                // Error occured
+                var embedError = new DiscordEmbedBuilder
+                {
+                    Color = new DiscordColor(configSrv.BotConfig.TimeoutColor),
+                    Title = "Начисление очков бесчестия",
+                    Description = $"Страна {countryName} не была найдена.",
+                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                };
+
+                await ctx.RespondAsync(embed: embedError);
+            }
+            else if (amount == -527694)
+            {
                 var embedError = new DiscordEmbedBuilder
                 {
                     Color = new DiscordColor(configSrv.BotConfig.BadColor),
                     Title = "Начисление очков бесчестия",
-                    Description = $"Страна {countryName} не была найдена.",
+                    Description = $"Введены символы. Невереное использование команды.",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                 };
 
@@ -225,7 +242,7 @@ namespace DisgraceDiscordBot.Commands
 
                     // DATABASE ACTIONS HERE
                     foundCountry.DisgracePoints += amount;
-                    bool successed = databaseSrv.SetCountry(foundCountry);
+                    bool successed = databaseSrv.UpdateCountry(foundCountry);
                     
                     if (successed)
                     {
@@ -237,7 +254,7 @@ namespace DisgraceDiscordBot.Commands
                             Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                         };
 
-                        await ctx.RespondAsync(null, false, embed: embed);
+                        await ctx.RespondAsync(embed: embed);
                     }
                     else
                     {
@@ -249,7 +266,7 @@ namespace DisgraceDiscordBot.Commands
                             Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                         };
 
-                        await ctx.RespondAsync(null, false, embed: embed);
+                        await ctx.RespondAsync(embed: embed);
                     }
                 }
                 else if (amount < 0)
@@ -257,13 +274,13 @@ namespace DisgraceDiscordBot.Commands
                     // Списывает
 
                     // Проверяет если после списания будет меньше 0 очков
-                    if (foundCountry.DisgracePoints - amount < 0)
+                    if (foundCountry.DisgracePoints + amount < 0)
                     {
                         int previousValue = foundCountry.DisgracePoints;
-
+                        
                         // DATABASE ACTIONS HERE
                         foundCountry.DisgracePoints = 0;
-                        bool successed = databaseSrv.SetCountry(foundCountry);
+                        bool successed = databaseSrv.UpdateCountry(foundCountry);
 
                         if (successed)
                         {
@@ -274,6 +291,8 @@ namespace DisgraceDiscordBot.Commands
                                 Description = $"Вы попробовали списать {Math.Abs(amount)} очков бесчестия, но только {previousValue} было списано. Теперь страна {countryName} имеет {foundCountry.DisgracePoints} очков бесчестия.",
                                 Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                             };
+
+                            await ctx.RespondAsync(embed: embed);
                         }
                         else
                         {
@@ -285,18 +304,17 @@ namespace DisgraceDiscordBot.Commands
                                 Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                             };
 
-                            await ctx.RespondAsync(null, false, embed: embed);
+                            await ctx.RespondAsync(embed: embed);
                         }
                     }
                     else
                     {
                         // DATABASE ACTIONS HERE
-                        foundCountry.DisgracePoints -= amount;
-                        bool successed = databaseSrv.SetCountry(foundCountry);
-
+                        foundCountry.DisgracePoints += amount;
+                        bool successed = databaseSrv.UpdateCountry(foundCountry);
+                        
                         if (successed)
                         {
-
                             var embed = new Discord​Embed​Builder()
                             {
                                 Color = new DiscordColor(configSrv.BotConfig.GoodColor),
@@ -304,6 +322,8 @@ namespace DisgraceDiscordBot.Commands
                                 Description = $"Вы списали {Math.Abs(amount)} очков бесчестия. Теперь страна {countryName} имеет {foundCountry.DisgracePoints} очков бесчестия.",
                                 Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                             };
+
+                            await ctx.RespondAsync(embed: embed);
                         }
                         else
                         {
@@ -315,7 +335,7 @@ namespace DisgraceDiscordBot.Commands
                                 Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                             };
 
-                            await ctx.RespondAsync(null, false, embed: embed);
+                            await ctx.RespondAsync(embed: embed);
                         }
                     }
                 }

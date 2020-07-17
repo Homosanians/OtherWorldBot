@@ -11,7 +11,6 @@ namespace DisgraceDiscordBot.Services
     {
         // SQLite3 (EF6)
         // Databse file: bot.db
-        // Database name: DisgraceDiscordBot
         // Collection name: Counties
         // Entry name: Country
 
@@ -51,6 +50,8 @@ namespace DisgraceDiscordBot.Services
 
         public bool SetCountry(Country country)
         {
+            country.LastUpdateTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
             db.Countries.Add(country);
 
             int result = db.SaveChanges();
@@ -75,6 +76,8 @@ namespace DisgraceDiscordBot.Services
 
         public bool UpdateCountry(Country newCountry)
         {
+            newCountry.LastUpdateTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
             db.Update(newCountry);
 
             int result = db.SaveChanges();
@@ -84,5 +87,9 @@ namespace DisgraceDiscordBot.Services
             else
                 return false;
         }
+
+        // newCountry.LastUpdateTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        // convert to @day
+        // if today is @day+1 >> make less pts
     }
 }
