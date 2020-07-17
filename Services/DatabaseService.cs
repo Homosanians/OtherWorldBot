@@ -23,35 +23,35 @@ namespace DisgraceDiscordBot.Services
             db = new ApplicationContext();
         }
 
-        public async Task<Country[]> GetAllCountries()
+        public Country[] GetAllCountries()
         {
-            var countries = await db.Countries
-                .ToArrayAsync();
+            var countries = db.Countries
+                .ToArray();
 
             return countries;
         }
 
-        public async Task<bool> IsCountryExist(string name)
+        public bool IsCountryExist(string name)
         {
-            return await db.Countries
-                .AnyAsync(b => b.Name == name);
+            return db.Countries
+                .Any(b => b.Name == name);
         }
 
-        public async Task<Country> GetCountryByName(string name)
+        public Country GetCountryByName(string name)
         {
-            var country = await db.Countries
-                .FirstOrDefaultAsync(b => b.Name == name);
+            var country = db.Countries
+                .FirstOrDefault(b => b.Name == name);
 
             return country;
         }
 
-        public async Task<bool> SetCountry(Country country)
+        public bool SetCountry(Country country)
         {
             country.LastUpdateTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
             db.Countries.Add(country);
 
-            int result = await db.SaveChangesAsync();
+            int result = db.SaveChanges();
 
             if (result == 1)
                 return true;
@@ -59,11 +59,11 @@ namespace DisgraceDiscordBot.Services
                 return false;
         }
 
-        public async Task<bool> RemoveCountry(Country country)
+        public bool RemoveCountry(Country country)
         {
             db.Remove(country);
 
-            int result = await db.SaveChangesAsync();
+            int result = db.SaveChanges();
 
             if (result == 1)
                 return true;
@@ -71,7 +71,7 @@ namespace DisgraceDiscordBot.Services
                 return false;
         }
 
-        public async Task<bool> UpdateCountry(Country newCountry)
+        public bool UpdateCountry(Country newCountry)
         {
             newCountry.LastUpdateTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
@@ -81,7 +81,7 @@ namespace DisgraceDiscordBot.Services
 
             db.Update(newCountry);
 
-            int result = await db.SaveChangesAsync();
+            int result = db.SaveChanges();
 
             if (result == 1)
                 return true;

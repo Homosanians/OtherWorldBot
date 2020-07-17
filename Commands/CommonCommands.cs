@@ -42,7 +42,7 @@ namespace DisgraceDiscordBot.Commands
         {
             await ctx.TriggerTypingAsync();
 
-            var countries = await databaseSrv.GetAllCountries();
+            var countries = databaseSrv.GetAllCountries();
 
             if (countries.Length == 0)
             {
