@@ -53,7 +53,7 @@ namespace DisgraceDiscordBot.Commands
                 {
                     Title = "Страны",
                     Description = "Ни одна страна не была найдена.",
-                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" },
+                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" },
                     Color = new DiscordColor(configSrv.BotConfig.WarningColor)
                 };
 
@@ -64,7 +64,7 @@ namespace DisgraceDiscordBot.Commands
                 var embed = new Discord​Embed​Builder()
                 {
                     Title = "Страны",
-                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" },
+                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" },
                     Color = new DiscordColor(configSrv.BotConfig.GoodColor)
                 };
 
@@ -95,7 +95,7 @@ namespace DisgraceDiscordBot.Commands
                 Color = new DiscordColor(configSrv.BotConfig.CommonColor),
                 Title = "Время до обновления",
                 Description = description,
-                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
             };
 
             await ctx.RespondAsync(embed: embed);

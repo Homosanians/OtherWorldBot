@@ -36,7 +36,7 @@ namespace DisgraceDiscordBot.Commands
                     Color = new DiscordColor(configSrv.BotConfig.BadColor),
                     Title = "Создание страны",
                     Description = $"Страна {countryName} не была создана, поскольку она уже существует.",
-                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                 };
 
                 await ctx.RespondAsync(embed: embedError);
@@ -57,7 +57,7 @@ namespace DisgraceDiscordBot.Commands
                         Color = new DiscordColor(configSrv.BotConfig.GoodColor),
                         Title = "Создание страны",
                         Description = $"Вы успешно создали страну {countryName}.",
-                        Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                        Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                     };
 
                     await ctx.RespondAsync(embed: embedSuccess);
@@ -69,7 +69,7 @@ namespace DisgraceDiscordBot.Commands
                         Color = new DiscordColor(configSrv.BotConfig.BadColor),
                         Title = "Создание страны",
                         Description = $"Произошла внутренняя ошибка. Страна {countryName} не была создана.",
-                        Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                        Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                     };
 
                     await ctx.RespondAsync(embed: embedError);
@@ -99,7 +99,7 @@ namespace DisgraceDiscordBot.Commands
                     Color = new DiscordColor(configSrv.BotConfig.WarningColor),
                     Title = "Удаление страны",
                     Description = $"Страна {countryName} не была найдена.",
-                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                 };
 
                 await ctx.RespondAsync(embed: embedError);
@@ -116,7 +116,7 @@ namespace DisgraceDiscordBot.Commands
                     Color = new DiscordColor(configSrv.BotConfig.CommonColor),
                     Title = "Удаление страны",
                     Description = $"Вы уверены, что хотите удалить страну {countryName}?",
-                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                 };
 
                 // Sent confirmation message.
@@ -135,7 +135,7 @@ namespace DisgraceDiscordBot.Commands
                         Color = new DiscordColor(configSrv.BotConfig.WarningColor),
                         Title = "Удаление страны",
                         Description = $"Время истекло. Страна {countryName} не была удалена.",
-                        Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                        Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                     };
                     await sentMessage.ModifyAsync(embed: embedCountryWasNotDeleted);
                 }
@@ -150,7 +150,7 @@ namespace DisgraceDiscordBot.Commands
                             Color = new DiscordColor(configSrv.BotConfig.GoodColor),
                             Title = "Удаление страны",
                             Description = $"Вы подтвердили действие. Страна {countryName} была успешно удалена.",
-                            Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                            Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                         };
 
                         await sentMessage.ModifyAsync(embed: embedSuccess);
@@ -162,7 +162,7 @@ namespace DisgraceDiscordBot.Commands
                             Color = new DiscordColor(configSrv.BotConfig.BadColor),
                             Title = "Удаление страны",
                             Description = $"Произошла внутренняя ошибка. Страна {countryName} не была удалена.",
-                            Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                            Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                         };
 
                         await sentMessage.ModifyAsync(embed: embedError);
@@ -175,7 +175,7 @@ namespace DisgraceDiscordBot.Commands
                         Color = new DiscordColor(configSrv.BotConfig.BadColor),
                         Title = "Удаление страны",
                         Description = $"Вы отменили действие. Страна {countryName} не была удалена.",
-                        Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                        Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                     };
                     await sentMessage.ModifyAsync(embed: embedCancel);
                 }
@@ -202,7 +202,7 @@ namespace DisgraceDiscordBot.Commands
                     Color = new DiscordColor(configSrv.BotConfig.WarningColor),
                     Title = "Начисление очков бесчестия",
                     Description = $"Страна {countryName} не была найдена.",
-                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                 };
 
                 await ctx.RespondAsync(embed: embedError);
@@ -214,7 +214,7 @@ namespace DisgraceDiscordBot.Commands
                     Color = new DiscordColor(configSrv.BotConfig.BadColor),
                     Title = "Начисление очков бесчестия",
                     Description = $"Введены символы. Невереное использование команды.",
-                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                 };
 
                 await ctx.RespondAsync(embed: embedError);
@@ -236,7 +236,7 @@ namespace DisgraceDiscordBot.Commands
                             Color = new DiscordColor(configSrv.BotConfig.GoodColor),
                             Title = "Начисление очков бесчестия",
                             Description = $"Вы начислили {amount} очков бесчестия стране {countryName}",
-                            Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                            Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                         };
 
                         await ctx.RespondAsync(embed: embed);
@@ -248,7 +248,7 @@ namespace DisgraceDiscordBot.Commands
                             Color = new DiscordColor(configSrv.BotConfig.BadColor),
                             Title = "Начисление очков бесчестия",
                             Description = $"Произошла внутренняя ошибка. Страна {foundCountry.Name} по прежднему имеет {foundCountry.DisgracePoints} очков бесчестия.",
-                            Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                            Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                         };
 
                         await ctx.RespondAsync(embed: embed);
@@ -274,7 +274,7 @@ namespace DisgraceDiscordBot.Commands
                                 Color = new DiscordColor(configSrv.BotConfig.GoodColor),
                                 Title = "Списание очков бесчестия",
                                 Description = $"Вы попытались списать {Math.Abs(amount)} очков бесчестия, но только {previousValue} было списано. Теперь страна {countryName} имеет {foundCountry.DisgracePoints} очков бесчестия.",
-                                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                             };
 
                             await ctx.RespondAsync(embed: embed);
@@ -286,7 +286,7 @@ namespace DisgraceDiscordBot.Commands
                                 Color = new DiscordColor(configSrv.BotConfig.BadColor),
                                 Title = "Начисление очков бесчестия",
                                 Description = $"Произошла внутренняя ошибка. Страна {foundCountry.Name} по прежднему имеет {foundCountry.DisgracePoints} очков бесчестия.",
-                                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                             };
 
                             await ctx.RespondAsync(embed: embed);
@@ -305,7 +305,7 @@ namespace DisgraceDiscordBot.Commands
                                 Color = new DiscordColor(configSrv.BotConfig.GoodColor),
                                 Title = "Списание очков бесчестия",
                                 Description = $"Вы списали {Math.Abs(amount)} очков бесчестия. Теперь страна {countryName} имеет {foundCountry.DisgracePoints} очков бесчестия.",
-                                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                             };
 
                             await ctx.RespondAsync(embed: embed);
@@ -317,7 +317,7 @@ namespace DisgraceDiscordBot.Commands
                                 Color = new DiscordColor(configSrv.BotConfig.BadColor),
                                 Title = "Начисление очков бесчестия",
                                 Description = $"Произошла внутренняя ошибка. Страна {foundCountry.Name} по прежднему имеет {foundCountry.DisgracePoints} очков бесчестия.",
-                                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                             };
 
                             await ctx.RespondAsync(embed: embed);
@@ -333,7 +333,7 @@ namespace DisgraceDiscordBot.Commands
                         Color = new DiscordColor(configSrv.BotConfig.BadColor),
                         Title = "Произошла ошибка",
                         Description = $"Убедитесь, что вы используете команду правильно.",
-                        Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                        Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                     };
 
                     await ctx.RespondAsync(null, false, embed.Build());
