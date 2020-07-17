@@ -25,25 +25,25 @@ namespace DisgraceDiscordBot.Services
             scheduleTimer.Enabled = true;
         }
 
-        private void OnTimedEvent(object sender, ElapsedEventArgs e)
+        private async void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
             _logService.Log(LogLevel.Info, "ScheduleUpdateService", "Starting update routine...");
 
             int today = DateTime.UtcNow.Day+1;
             
-            var entries =  _databaseService.GetAllCountries();
+            var entries = await _databaseService.GetAllCountries();
 
             foreach (var entry in entries)
             {
                 int lastUpdateDay = TimeUtil.UnixTimeStampToDateTime(entry.LastUpdateTimestamp).Day;
-                
-                _databaseService.UpdateCountry(entry);
+
+                await _databaseService.UpdateCountry(entry);
                 if (lastUpdateDay < today)
                 {
                     // TODO: Config
                     entry.DisgracePoints -= 2;
 
-                    _databaseService.UpdateCountry(entry);
+                    await _databaseService.UpdateCountry(entry);
                 }
             }
         }

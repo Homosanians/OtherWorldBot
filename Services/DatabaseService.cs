@@ -2,6 +2,7 @@
 using DisgraceDiscordBot.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,40 +19,60 @@ namespace DisgraceDiscordBot.Services
        
         private ApplicationContext db;
 
+        private SemaphoreSlim ss = new SemaphoreSlim(1, 1);
+
         public DatabaseService()
         {
             db = new ApplicationContext();
         }
 
-        public Country[] GetAllCountries()
+        public async Task<Country[]> GetAllCountries()
         {
-            var countries = db.Countries
-                .ToArray();
+            await ss.WaitAsync();
+
+            var countries = await db.Countries
+                .ToArrayAsync();
+
+            ss.Release();
 
             return countries;
         }
 
-        public bool IsCountryExist(string name)
+        public async Task<bool> IsCountryExist(string name)
         {
-            return db.Countries
-                .Any(b => b.Name == name);
+            await ss.WaitAsync();
+
+            var result = await db.Countries
+                .AnyAsync(b => b.Name == name);
+
+            ss.Release();
+
+            return result;
         }
 
-        public Country GetCountryByName(string name)
+        public async Task<Country> GetCountryByName(string name)
         {
-            var country = db.Countries
-                .FirstOrDefault(b => b.Name == name);
+            await ss.WaitAsync();
+
+            var country = await db.Countries
+                .FirstOrDefaultAsync(b => b.Name == name);
+
+            ss.Release();
 
             return country;
         }
 
-        public bool SetCountry(Country country)
+        public async Task<bool> SetCountry(Country country)
         {
             country.LastUpdateTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
             db.Countries.Add(country);
 
-            int result = db.SaveChanges();
+            await ss.WaitAsync();
+
+            int result = await db.SaveChangesAsync();
+
+            ss.Release();
 
             if (result == 1)
                 return true;
@@ -59,11 +80,15 @@ namespace DisgraceDiscordBot.Services
                 return false;
         }
 
-        public bool RemoveCountry(Country country)
+        public async Task<bool> RemoveCountry(Country country)
         {
             db.Remove(country);
 
-            int result = db.SaveChanges();
+            await ss.WaitAsync();
+
+            int result = await db.SaveChangesAsync();
+
+            ss.Release();
 
             if (result == 1)
                 return true;
@@ -71,7 +96,7 @@ namespace DisgraceDiscordBot.Services
                 return false;
         }
 
-        public bool UpdateCountry(Country newCountry)
+        public async Task<bool> UpdateCountry(Country newCountry)
         {
             newCountry.LastUpdateTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
@@ -81,7 +106,11 @@ namespace DisgraceDiscordBot.Services
 
             db.Update(newCountry);
 
-            int result = db.SaveChanges();
+            await ss.WaitAsync();
+
+            int result = await db.SaveChangesAsync();
+
+            ss.Release();
 
             if (result == 1)
                 return true;
