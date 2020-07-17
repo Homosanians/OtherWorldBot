@@ -37,7 +37,7 @@ namespace DisgraceDiscordBot.Commands
 
         [Command("show")]
         [Description("Показывает все страны")]
-        [Aliases("показать", "страны", "countries")]
+        [Aliases("показать", "страны", "countries", "list", "список")]
         public async Task ShowCountries(CommandContext ctx)
         {
             await ctx.TriggerTypingAsync();

@@ -185,57 +185,147 @@ namespace DisgraceDiscordBot.Commands
         }
 
         [Command("charge"), Description("Начисляет очки бесчестия стране.")]
-        public async Task Charge(CommandContext ctx, [Description("Название страны.")] string country, [Description("Количество очков бесчестия для добавления.")] int amount)
+        public async Task Charge(CommandContext ctx, [Description("Название страны.")] string countryName, [Description("Количество очков бесчестия для добавления.")] int amount)
         {
             await ctx.TriggerTypingAsync();
 
-            if (amount > 0)
+            Country foundCountry = null;
+
+            try
             {
-                // Начисляет
-
-                var embed = new Discord​Embed​Builder()
-                {
-                    Color = new DiscordColor(configSrv.BotConfig.GoodColor),
-                    Title = "Начисление очков бесчестия",
-                    Description = $"Вы начислили {amount} очков бесчестия стране {country}",
-                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
-                };
-
-
-                // DATABASE ACTIONS HERE
-
-                await ctx.RespondAsync(null, false, embed.Build());
+                foundCountry = databaseSrv.GetCountryByName(countryName);
             }
-            else if (amount < 0)
-            {
-                // Списывает
+            catch (Exception) { }
 
-                var embed = new Discord​Embed​Builder()
+            if (foundCountry == null)
+            {
+                // Error occured
+                var embedError = new DiscordEmbedBuilder
                 {
-                    Color = new DiscordColor(configSrv.BotConfig.GoodColor),
-                    Title = "Списание очков бесчестия",
-                    Description = $"Вы списали {Math.Abs(amount)} очков бесчестия стране {country}",
+                    Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                    Title = "Начисление очков бесчестия",
+                    Description = $"Страна {countryName} не была найдена.",
                     Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
                 };
 
-
-                // DATABASE ACTIONS HERE
-
-                await ctx.RespondAsync(null, false, embed.Build());
+                await ctx.RespondAsync(embed: embedError);
             }
             else
             {
-                // Попытка списание/начисления 0 очков или исключение
-
-                var embed = new Discord​Embed​Builder()
+                if (amount > 0)
                 {
-                    Color = new DiscordColor(configSrv.BotConfig.BadColor),
-                    Title = "Произошла ошибка",
-                    Description = $"Убедитесь, что вы используете команду правильно.",
-                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
-                };
+                    // Начисляет
 
-                await ctx.RespondAsync(null, false, embed.Build());
+                    // DATABASE ACTIONS HERE
+                    foundCountry.DisgracePoints += amount;
+                    bool successed = databaseSrv.SetCountry(foundCountry);
+                    
+                    if (successed)
+                    {
+                        var embed = new Discord​Embed​Builder()
+                        {
+                            Color = new DiscordColor(configSrv.BotConfig.GoodColor),
+                            Title = "Начисление очков бесчестия",
+                            Description = $"Вы начислили {amount} очков бесчестия стране {countryName}",
+                            Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                        };
+
+                        await ctx.RespondAsync(null, false, embed: embed);
+                    }
+                    else
+                    {
+                        var embed = new Discord​Embed​Builder()
+                        {
+                            Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                            Title = "Начисление очков бесчестия",
+                            Description = $"Произошла внутренняя ошибка. Страна {foundCountry.Name} по прежднему имеет {foundCountry.DisgracePoints} очков бесчестия.",
+                            Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                        };
+
+                        await ctx.RespondAsync(null, false, embed: embed);
+                    }
+                }
+                else if (amount < 0)
+                {
+                    // Списывает
+
+                    // Проверяет если после списания будет меньше 0 очков
+                    if (foundCountry.DisgracePoints - amount < 0)
+                    {
+                        int previousValue = foundCountry.DisgracePoints;
+
+                        // DATABASE ACTIONS HERE
+                        foundCountry.DisgracePoints = 0;
+                        bool successed = databaseSrv.SetCountry(foundCountry);
+
+                        if (successed)
+                        {
+                            var embed = new Discord​Embed​Builder()
+                            {
+                                Color = new DiscordColor(configSrv.BotConfig.GoodColor),
+                                Title = "Списание очков бесчестия",
+                                Description = $"Вы попробовали списать {Math.Abs(amount)} очков бесчестия, но только {previousValue} было списано. Теперь страна {countryName} имеет {foundCountry.DisgracePoints} очков бесчестия.",
+                                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                            };
+                        }
+                        else
+                        {
+                            var embed = new Discord​Embed​Builder()
+                            {
+                                Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                                Title = "Начисление очков бесчестия",
+                                Description = $"Произошла внутренняя ошибка. Страна {foundCountry.Name} по прежднему имеет {foundCountry.DisgracePoints} очков бесчестия.",
+                                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                            };
+
+                            await ctx.RespondAsync(null, false, embed: embed);
+                        }
+                    }
+                    else
+                    {
+                        // DATABASE ACTIONS HERE
+                        foundCountry.DisgracePoints -= amount;
+                        bool successed = databaseSrv.SetCountry(foundCountry);
+
+                        if (successed)
+                        {
+
+                            var embed = new Discord​Embed​Builder()
+                            {
+                                Color = new DiscordColor(configSrv.BotConfig.GoodColor),
+                                Title = "Списание очков бесчестия",
+                                Description = $"Вы списали {Math.Abs(amount)} очков бесчестия. Теперь страна {countryName} имеет {foundCountry.DisgracePoints} очков бесчестия.",
+                                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                            };
+                        }
+                        else
+                        {
+                            var embed = new Discord​Embed​Builder()
+                            {
+                                Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                                Title = "Начисление очков бесчестия",
+                                Description = $"Произошла внутренняя ошибка. Страна {foundCountry.Name} по прежднему имеет {foundCountry.DisgracePoints} очков бесчестия.",
+                                Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                            };
+
+                            await ctx.RespondAsync(null, false, embed: embed);
+                        }
+                    }
+                }
+                else
+                {
+                    // Попытка списание/начисления 0 очков или исключение
+
+                    var embed = new Discord​Embed​Builder()
+                    {
+                        Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                        Title = "Произошла ошибка",
+                        Description = $"Убедитесь, что вы используете команду правильно.",
+                        Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Cyka" }
+                    };
+
+                    await ctx.RespondAsync(null, false, embed.Build());
+                }
             }
         }
     }

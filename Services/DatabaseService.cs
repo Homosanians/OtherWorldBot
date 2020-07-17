@@ -68,9 +68,13 @@ namespace DisgraceDiscordBot.Services
             return true;
         }
 
-        public bool UpdateCountry(int id, Country newCountry)
+        public bool UpdateCountry(Country newCountry)
         {
-            return false;
+            db.Update(newCountry);
+
+            db.SaveChanges();
+
+            return true;
         }
     }
 }
