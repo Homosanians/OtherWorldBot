@@ -1,5 +1,6 @@
 ﻿using DisgraceDiscordBot.Entities;
 using Newtonsoft.Json;
+using System;
 using System.IO;
 
 namespace DisgraceDiscordBot.Services
@@ -29,8 +30,9 @@ namespace DisgraceDiscordBot.Services
         {
             if (!File.Exists("config.json"))
             {
-                System.Console.WriteLine("config.json was not found. Creating new one.");
+                Console.WriteLine("config.json was not found. A new one is beeing created.");
                 SetConfig(new BotConfig());
+                Environment.Exit(0);
             }
         }
 
