@@ -32,7 +32,7 @@ namespace DisgraceDiscordBot
             {
                 Token = ConfigService.BotConfig.Token,
                 TokenType = TokenType.Bot,
-
+                
                 AutoReconnect = true,
                 LogLevel = ConfigService.BotConfig.LogLevel,
                 UseInternalLogHandler = true
@@ -87,11 +87,11 @@ namespace DisgraceDiscordBot
 
                 // default pagination timeout to 5 minutes
                 PaginationTimeout = TimeSpan.FromMinutes(5),
-
+                
                 // default timeout for other actions to 2 minutes
                 Timeout = TimeSpan.FromMinutes(2)
             });
-
+            
             // up next, let's set up our commands
             var ccfg = new CommandsNextConfiguration
             {
@@ -120,9 +120,6 @@ namespace DisgraceDiscordBot
             // finally, let's connect and log in
             await this.Client.ConnectAsync();
             
-            // Set status
-            await this.Client.UpdateStatusAsync(new DiscordGame(ConfigService.BotConfig.CommandPrefix + "show"));
-
             // when the bot is running, try doing <prefix>help
             // to see the list of registered commands, and 
             // <prefix>help <command> to see help about specific
@@ -135,7 +132,7 @@ namespace DisgraceDiscordBot
         private Task Client_Ready(ReadyEventArgs e)
         {
             // let's log the fact that this event occured
-            e.Client.DebugLogger.LogMessage(LogLevel.Info, "DisgraceDiscordBot", "Client is ready to process events.", DateTime.Now);
+            e.Client.DebugLogger.LogMessage(LogLevel.Info, "OtherWorld", "Client is ready to process events.", DateTime.Now);
 
             // since this method is not async, let's return
             // a completed task, so that no additional work
@@ -147,7 +144,7 @@ namespace DisgraceDiscordBot
         {
             // let's log the name of the guild that was just
             // sent to our client
-            e.Client.DebugLogger.LogMessage(LogLevel.Info, "DisgraceDiscordBot", $"Guild available: {e.Guild.Name}", DateTime.Now);
+            e.Client.DebugLogger.LogMessage(LogLevel.Info, "OtherWorld", $"Guild available: {e.Guild.Name}", DateTime.Now);
 
             // since this method is not async, let's return
             // a completed task, so that no additional work
@@ -159,7 +156,7 @@ namespace DisgraceDiscordBot
         {
             // let's log the details of the error that just 
             // occured in our client
-            e.Client.DebugLogger.LogMessage(LogLevel.Error, "DisgraceDiscordBot", $"Exception occured: {e.Exception.GetType()}: {e.Exception.Message}\n{e.Exception.StackTrace}", DateTime.Now);
+            e.Client.DebugLogger.LogMessage(LogLevel.Error, "OtherWorld", $"Exception occured: {e.Exception.GetType()}: {e.Exception.Message}\n{e.Exception.StackTrace}", DateTime.Now);
 
             // since this method is not async, let's return
             // a completed task, so that no additional work
@@ -170,7 +167,7 @@ namespace DisgraceDiscordBot
         private Task Commands_CommandExecuted(CommandExecutionEventArgs e)
         {
             // let's log the name of the command and user
-            e.Context.Client.DebugLogger.LogMessage(LogLevel.Info, "DisgraceDiscordBot", $"{e.Context.User.Username} successfully executed '{e.Command.QualifiedName}'", DateTime.Now);
+            e.Context.Client.DebugLogger.LogMessage(LogLevel.Info, "OtherWorld", $"{e.Context.User.Username} successfully executed '{e.Command.QualifiedName}'", DateTime.Now);
 
             // since this method is not async, let's return
             // a completed task, so that no additional work
@@ -181,11 +178,11 @@ namespace DisgraceDiscordBot
         private async Task Commands_CommandErrored(CommandErrorEventArgs e)
         {
             // let's log the error details
-            e.Context.Client.DebugLogger.LogMessage(LogLevel.Error, "DisgraceDiscordBot", $"{e.Context.User.Username} tried executing '{e.Command?.QualifiedName ?? "<unknown command>"}' but it errored: {e.Exception.GetType()}: {e.Exception.Message ?? "<no message>"}\n{e.Exception.StackTrace}", DateTime.Now);
+            e.Context.Client.DebugLogger.LogMessage(LogLevel.Error, "OtherWorld", $"{e.Context.User.Username} tried executing '{e.Command?.QualifiedName ?? "<unknown command>"}' but it errored: {e.Exception.GetType()}: {e.Exception.Message ?? "<no message>"}\n{e.Exception.StackTrace}", DateTime.Now);
 
             // let's check if the error is a result of lack
             // of required permissions
-            if (e.Exception is ChecksFailedException ex)
+            if (e.Exception is ChecksFailedException)
             {
                 // yes, the user lacks required permissions, 
                 // let them know
