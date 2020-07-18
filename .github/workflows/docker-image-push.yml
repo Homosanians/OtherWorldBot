@@ -23,4 +23,4 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: homosanians/disgracediscordbot
         tag_with_ref: true
-        target: image
+        tag_with_sha: true
