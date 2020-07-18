@@ -5,7 +5,7 @@ namespace DisgraceDiscordBot.Utils
     public class TimeWordFormatter : IFormatProvider, ICustomFormatter
     {
         static readonly string[] hours = { "час", "часа", "часов" };
-        static readonly string[] minutes = { "минута", "минуты", "минут" };
+        static readonly string[] minutes = { "минуту", "минуты", "минут" };
         static readonly string[] seconds = { "секунду", "секунды", "секунд" };
 
         public object GetFormat(Type formatType)
