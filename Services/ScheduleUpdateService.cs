@@ -28,7 +28,7 @@ namespace DisgraceDiscordBot.Services
 
         private async void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
-            _logService.Log(LogLevel.Info, "ScheduleUpdateService", "Starting update routine...");
+            _logService.Log(LogLevel.Debug, "ScheduleUpdateService", "Starting update routine...");
 
             int today = DateTime.UtcNow.Day;
             
