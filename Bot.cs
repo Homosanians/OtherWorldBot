@@ -99,7 +99,7 @@ namespace DisgraceDiscordBot
                 StringPrefix = ConfigService.BotConfig.CommandPrefix,
 
                 // enable responding in direct messages
-                EnableDms = true,
+                EnableDms = false,
                 Dependencies = deps,
                 // enable mentioning the bot as a command prefix
                 EnableMentionPrefix = true
