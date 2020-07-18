@@ -192,11 +192,11 @@ namespace DisgraceDiscordBot
                 // let's wrap the response into an embed
                 var embed = new DiscordEmbedBuilder
                 {
-                    Title = "Access denied",
-                    Description = $"{emoji} У вас нет привелегий для выполнения этой команды.",
-                    Color = new DiscordColor(0xFF0000) // red
+                    Title = "Доступ запрещен",
+                    Description = $"{emoji} У вас нет привилегий для выполнения этой команды.",
+                    Color = new DiscordColor(ConfigService.BotConfig.BadColor)
                 };
-                await e.Context.RespondAsync("", embed: embed);
+                await e.Context.RespondAsync(embed: embed);
             }
         }
     }

@@ -12,7 +12,7 @@ using DSharpPlus.Interactivity;
 namespace DisgraceDiscordBot.Commands
 {
     [Description("Административные команды.")]
-    [RequirePermissions(Permissions.ManageGuild)]
+    [RequirePermissions(Permissions.Administrator)]
     public class AdminCommands
     {
         private ConfigService configSrv;
@@ -24,7 +24,7 @@ namespace DisgraceDiscordBot.Commands
             databaseSrv = databaseService;
         }
 
-        [Command("add"), Description("Добавляет страну.")]
+        [Command("add"), Description("Добавляет страну."), RequirePermissions(Permissions.Administrator)]
         public async Task Add(CommandContext ctx, [RemainingText, Description("Название страны.")] string countryName)
         {
             await ctx.TriggerTypingAsync();
@@ -78,7 +78,7 @@ namespace DisgraceDiscordBot.Commands
         }
 
         // сначало чек на существование, а потом всё остальное. если нет, то красная ошибка. если есть, то везде пишем название, даже если получили страну из ИД
-        [Command("remove"), Aliases("del", "delete"), Description("Удаляет страну.")]
+        [Command("remove"), Aliases("del", "delete"), Description("Удаляет страну."), RequirePermissions(Permissions.Administrator)]
         public async Task Remove(CommandContext ctx, [RemainingText, Description("Название страны.")] string countryName)
         {
             await ctx.TriggerTypingAsync();
@@ -182,7 +182,7 @@ namespace DisgraceDiscordBot.Commands
             }
         }
 
-        [Command("charge"), Description("Начисляет очки бесчестия стране.")]
+        [Command("charge"), Description("Начисляет очки бесчестия стране."), RequirePermissions(Permissions.Administrator)]
         public async Task Charge(CommandContext ctx, [Description("Количество очков бесчестия для добавления.")] int amount, [RemainingText, Description("Название страны.")] string countryName)
         {
             await ctx.TriggerTypingAsync();
