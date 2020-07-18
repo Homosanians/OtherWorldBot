@@ -43,7 +43,7 @@ namespace DisgraceDiscordBot
             this.LogService = new LogService(Client);
             this.DatabaseService = new DatabaseService();
             this.ScheduleUpdateService = new ScheduleUpdateService(LogService, ConfigService, DatabaseService);
-
+           
             var deps = new DependencyCollectionBuilder()
                 .AddInstance(ConfigService)
                 .AddInstance(LogService)

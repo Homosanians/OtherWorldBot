@@ -27,52 +27,55 @@ namespace DisgraceDiscordBot.Commands
         [Command("add"), Description("Добавляет страну.")]
         public async Task Add(CommandContext ctx, [RemainingText, Description("Название страны.")] string countryName)
         {
-            await ctx.TriggerTypingAsync();
-
-            if (await databaseSrv.IsCountryExistAsync(countryName))
+            if (!string.IsNullOrWhiteSpace(countryName))
             {
-                var embedError = new DiscordEmbedBuilder
-                {
-                    Color = new DiscordColor(configSrv.BotConfig.WarningColor),
-                    Title = "Создание страны",
-                    Description = $"Страна {countryName} не была создана, поскольку она уже существует.",
-                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
-                };
+                await ctx.TriggerTypingAsync();
 
-                await ctx.RespondAsync(embed: embedError);
-            }
-            else
-            {
-                // DATABASE ACTIONS HERE
-                var entry = new Country();
-                entry.Name = countryName;
-                entry.DisgracePoints = 0;
-
-                var entryAdded = databaseSrv.SetCountryAsync(entry);
-
-                if (await entryAdded)
-                {
-                    var embedSuccess = new DiscordEmbedBuilder
-                    {
-                        Color = new DiscordColor(configSrv.BotConfig.GoodColor),
-                        Title = "Создание страны",
-                        Description = $"Вы успешно создали страну {countryName}.",
-                        Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
-                    };
-
-                    await ctx.RespondAsync(embed: embedSuccess);
-                }
-                else
+                if (await databaseSrv.IsCountryExistAsync(countryName))
                 {
                     var embedError = new DiscordEmbedBuilder
                     {
-                        Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                        Color = new DiscordColor(configSrv.BotConfig.WarningColor),
                         Title = "Создание страны",
-                        Description = $"Произошла внутренняя ошибка. Страна {countryName} не была создана.",
+                        Description = $"Страна {countryName} не была создана, поскольку она уже существует.",
                         Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
                     };
 
                     await ctx.RespondAsync(embed: embedError);
+                }
+                else
+                {
+                    // DATABASE ACTIONS HERE
+                    var entry = new Country();
+                    entry.Name = countryName;
+                    entry.DisgracePoints = 0;
+
+                    var entryAdded = databaseSrv.SetCountryAsync(entry);
+
+                    if (await entryAdded)
+                    {
+                        var embedSuccess = new DiscordEmbedBuilder
+                        {
+                            Color = new DiscordColor(configSrv.BotConfig.GoodColor),
+                            Title = "Создание страны",
+                            Description = $"Вы успешно создали страну {countryName}.",
+                            Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
+                        };
+
+                        await ctx.RespondAsync(embed: embedSuccess);
+                    }
+                    else
+                    {
+                        var embedError = new DiscordEmbedBuilder
+                        {
+                            Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                            Title = "Создание страны",
+                            Description = $"Произошла внутренняя ошибка. Страна {countryName} не была создана.",
+                            Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
+                        };
+
+                        await ctx.RespondAsync(embed: embedError);
+                    }
                 }
             }
         }
