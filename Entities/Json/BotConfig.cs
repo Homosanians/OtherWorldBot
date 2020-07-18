@@ -10,27 +10,30 @@ namespace DisgraceDiscordBot.Entities
         public string Token { get; private set; } = "";
 
         [JsonProperty("CommandPrefix")]
-        public string CommandPrefix { get; private set; } = "!";
+        public string CommandPrefix { get; private set; } = "+";
+
+        [JsonProperty("PlayingGameString")]
+        public string PlayingGameString { get; private set; } = "+show";
 
         [JsonProperty("LogLevel")]
-        public LogLevel LogLevel { get; set; } = LogLevel.Debug;
+        public LogLevel LogLevel { get; private set; } = LogLevel.Info;
 
         [JsonProperty("UpdateDecreaseValue")]
-        public int UpdateDecreaseValue { get; set; } = 2;
+        public int UpdateDecreaseValue { get; private set; } = 2;
 
         [JsonProperty("UpdateRateInMinutes")]
-        public int UpdateRateInMinutes { get; set; } = 10;
+        public int UpdateRateInMinutes { get; private set; } = 10;
 
         [JsonProperty("GoodColor")]
-        public string GoodColor { get; set; } = "00FF00";
+        public string GoodColor { get; private set; } = "00FF00";
 
         [JsonProperty("BadColor")]
-        public string BadColor { get; set; } = "FF0000";
+        public string BadColor { get; private set; } = "FF0000";
 
         [JsonProperty("WarningColor")]
-        public string WarningColor { get; set; } = "FFFF00";
+        public string WarningColor { get; private set; } = "FFFF00";
 
         [JsonProperty("CommonColor")]
-        public string CommonColor { get; set; } = "404040";
+        public string CommonColor { get; private set; } = "404040";
     }
 }

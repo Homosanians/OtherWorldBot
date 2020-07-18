@@ -27,7 +27,7 @@ namespace DisgraceDiscordBot
         public async Task InitAsync()
         {
             this.ConfigService = new ConfigService();
-
+            
             var cfg = new DiscordConfiguration
             {
                 Token = ConfigService.BotConfig.Token,
@@ -133,6 +133,9 @@ namespace DisgraceDiscordBot
         {
             // let's log the fact that this event occured
             e.Client.DebugLogger.LogMessage(LogLevel.Info, "OtherWorld", "Client is ready to process events.", DateTime.Now);
+
+            // Let's set a tooltip help command game
+            this.Client.UpdateStatusAsync(new DiscordGame($"{this.ConfigService.BotConfig.CommandPrefix}show"));
 
             // since this method is not async, let's return
             // a completed task, so that no additional work
