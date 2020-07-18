@@ -78,7 +78,7 @@ namespace DisgraceDiscordBot
             this.Client.Ready += this.Client_Ready;
             this.Client.GuildAvailable += this.Client_GuildAvailable;
             this.Client.ClientErrored += this.Client_ClientError;
-
+            
             // let's enable interactivity, and set default options
             this.Client.UseInteractivity(new InteractivityConfiguration
             {
@@ -97,7 +97,7 @@ namespace DisgraceDiscordBot
             {
                 // let's use the string prefix defined in config.json
                 StringPrefix = ConfigService.BotConfig.CommandPrefix,
-
+                
                 // enable responding in direct messages
                 EnableDms = false,
                 Dependencies = deps,
@@ -119,6 +119,9 @@ namespace DisgraceDiscordBot
 
             // finally, let's connect and log in
             await this.Client.ConnectAsync();
+            
+            // Set status
+            await this.Client.UpdateStatusAsync(new DiscordGame(ConfigService.BotConfig.CommandPrefix + "show"));
 
             // when the bot is running, try doing <prefix>help
             // to see the list of registered commands, and 
