@@ -78,6 +78,7 @@ namespace DisgraceDiscordBot
             this.Client.Ready += this.Client_Ready;
             this.Client.GuildAvailable += this.Client_GuildAvailable;
             this.Client.ClientErrored += this.Client_ClientError;
+            this.Client.GuildMemberAdded += Client_GuildMemberAdded;
             
             // let's enable interactivity, and set default options
             this.Client.UseInteractivity(new InteractivityConfiguration
@@ -127,6 +128,31 @@ namespace DisgraceDiscordBot
 
             // and this is to prevent premature quitting
             await Task.Delay(-1);
+        }
+
+        private Task Client_GuildMemberAdded(GuildMemberAddEventArgs e)
+        {
+            if (!e.Member.IsBot)
+            {
+                var embed = new DiscordEmbedBuilder
+                {
+                    Color = new DiscordColor(ConfigService.BotConfig.GoodColor),
+                    Title = "Добро пожаловать",
+                    Description = $"Хей, {e.Member.Username}, приветствуем тебя на нашем сервере! :wave:" +
+                    $"" +
+                    $"Чтобы подать заявку на проходку," +
+                    $"просто пропиши команду .request в абсолютно любой чат на сервере. Дальше следуй инструкциям, которые тебе отпишут в ЛС." +
+                    $"Обрати внимание, что после отправки анкеты, проходка может достаться тебе как беслпатно, так и с оплатой." +
+                    $"Постарайся заполнить всё более детально, укажи что у тебя большой опыт, покажи что ты настоящий майнкрафтер и мы примим тебя бесплатно!" +
+                    $"" +
+                    $"Остальную информацию ты сможешь найти в канале #информация",
+                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
+                };
+
+                e.Member.SendMessageAsync(embed: embed);
+            }
+
+            return Task.CompletedTask;
         }
 
         private Task Client_Ready(ReadyEventArgs e)
