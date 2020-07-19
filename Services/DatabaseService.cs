@@ -1,5 +1,5 @@
-﻿using DisgraceDiscordBot.Data;
-using DisgraceDiscordBot.Entities;
+﻿using OtherWorldBot.Data;
+using OtherWorldBot.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DisgraceDiscordBot.Services
+namespace OtherWorldBot.Services
 {
     public class DatabaseService
     {

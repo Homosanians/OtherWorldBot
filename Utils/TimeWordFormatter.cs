@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DisgraceDiscordBot.Utils
+namespace OtherWorldBot.Utils
 {
     public class TimeWordFormatter : IFormatProvider, ICustomFormatter
     {

@@ -1,7 +1,7 @@
-﻿using DisgraceDiscordBot.Entities;
+﻿using OtherWorldBot.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DisgraceDiscordBot.Data
+namespace OtherWorldBot.Data
 {
     public class ApplicationContext : DbContext
     {

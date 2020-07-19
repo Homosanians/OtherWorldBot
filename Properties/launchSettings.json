@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "DisgraceDiscordBot": {
+    "OtherWorldBot": {
       "commandName": "Project"
     },
     "Docker": {

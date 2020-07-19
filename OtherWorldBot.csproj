@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <StartupObject>DisgraceDiscordBot.Program</StartupObject>
+    <StartupObject>OtherWorldBot.Program</StartupObject>
     <RepositoryType>Private</RepositoryType>
     <Copyright>Alexander Emelyanov 2020</Copyright>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>

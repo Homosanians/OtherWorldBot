@@ -1,7 +1,7 @@
 ﻿using DSharpPlus;
 using System;
 
-namespace DisgraceDiscordBot.Services
+namespace OtherWorldBot.Services
 {
     public class LogService
     {

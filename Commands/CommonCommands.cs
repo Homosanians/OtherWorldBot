@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DisgraceDiscordBot.Services;
-using DisgraceDiscordBot.Utils;
+using OtherWorldBot.Services;
+using OtherWorldBot.Utils;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 
-namespace DisgraceDiscordBot.Commands
+namespace OtherWorldBot.Commands
 {
     [Description("Команды пользователя.")]
     public class CommonCommands

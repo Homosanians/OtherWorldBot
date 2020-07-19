@@ -1,4 +1,4 @@
-﻿namespace DisgraceDiscordBot.Entities
+﻿namespace OtherWorldBot.Entities
 {
     public class Country
     {

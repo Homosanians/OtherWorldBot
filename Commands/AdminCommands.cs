@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using DisgraceDiscordBot.Entities;
-using DisgraceDiscordBot.Services;
+using OtherWorldBot.Entities;
+using OtherWorldBot.Services;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 
-namespace DisgraceDiscordBot.Commands
+namespace OtherWorldBot.Commands
 {
     [Description("Административные команды.")]
     [RequirePermissions(Permissions.Administrator)]

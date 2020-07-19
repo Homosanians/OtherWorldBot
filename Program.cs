@@ -1,4 +1,4 @@
-﻿namespace DisgraceDiscordBot
+﻿namespace OtherWorldBot
 {
     public class Program
     {

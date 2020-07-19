@@ -8,11 +8,11 @@ using DSharpPlus.CommandsNext.Exceptions;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
-using DisgraceDiscordBot.Commands;
+using OtherWorldBot.Commands;
 using Newtonsoft.Json;
-using DisgraceDiscordBot.Services;
+using OtherWorldBot.Services;
 
-namespace DisgraceDiscordBot
+namespace OtherWorldBot
 {
     public class Bot
     {

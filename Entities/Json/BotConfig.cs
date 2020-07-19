@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.IO;
 
-namespace DisgraceDiscordBot.Entities
+namespace OtherWorldBot.Entities
 {
     public class BotConfig
     {

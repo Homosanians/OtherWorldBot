@@ -1,9 +1,9 @@
-﻿using DisgraceDiscordBot.Entities;
+﻿using OtherWorldBot.Entities;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 
-namespace DisgraceDiscordBot.Services
+namespace OtherWorldBot.Services
 {
     public class ConfigService
     {

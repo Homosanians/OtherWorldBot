@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DisgraceDiscordBot.Utils
+namespace OtherWorldBot.Utils
 {
     public static class TimeUtil
     {

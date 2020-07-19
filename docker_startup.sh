@@ -12,4 +12,4 @@ else
 fi
 
 cd /data
-dotnet DisgraceDiscordBot.dll
+dotnet OtherWorldBot.dll

@@ -1,12 +1,12 @@
-﻿using DisgraceDiscordBot.Entities;
-using DisgraceDiscordBot.Utils;
+﻿using OtherWorldBot.Entities;
+using OtherWorldBot.Utils;
 using DSharpPlus;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Timers;
 
-namespace DisgraceDiscordBot.Services
+namespace OtherWorldBot.Services
 {
     public class ScheduleUpdateService
     {
