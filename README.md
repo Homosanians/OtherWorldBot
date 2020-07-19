@@ -10,9 +10,9 @@ dotnet publish -c Release -f netcoreapp3.1 -r <arch>
 
 ```bash
 docker rm --force dbot
-docker rmi homosanians/disgracediscordbot:latest
-docker build -t homosanians/disgracediscordbot:latest .
-docker run -d -v /opt/dbot_data:/data --restart unless-stopped --name dbot homosanians/disgracediscordbot:latest
+docker rmi homosanians/otherworldbot:latest
+docker build -t homosanians/otherworldbot:latest .
+docker run -d -v /opt/owbot_data:/data --restart unless-stopped --name owbot homosanians/otherworldbot:latest
 ```
 
 ## Deploy
@@ -26,6 +26,5 @@ No daemon instructions
 ```bash
 curl -sSL https://get.docker.com | sudo sh
 sudo usermod -aG docker $USER
-docker build -t homosanians/disgracediscordbot:latest .
-docker run -d -v /opt/dbot_data:/data --restart unless-stopped --name dbot homosanians/disgracediscordbot:latest
+docker run -d -v /opt/owbot_data:/data --restart unless-stopped --name owbot homosanians/otherworldbot:latest
 ```
