@@ -1,4 +1,4 @@
-# Disgrace Discord Bot
+# Other World Bot
 
 Made for Other World community Discord server.
 
