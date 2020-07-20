@@ -47,14 +47,21 @@ namespace OtherWorldBot.Services
 
         public async Task<Country> GetCountryByNameAsync(string name)
         {
-            await ss.WaitAsync();
+            try
+            {
+                await ss.WaitAsync();
 
-            var country = await db.Countries
-                .FirstOrDefaultAsync(b => b.Name == name);
+                var country = await db.Countries
+                    .FirstOrDefaultAsync(b => b.Name == name);
 
-            ss.Release();
+                ss.Release();
 
-            return country;
+                return country;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public async Task<bool> SetCountryAsync(Country country)

@@ -15,8 +15,8 @@ namespace OtherWorldBot.Commands
     [RequirePermissions(Permissions.Administrator)]
     public class AdminCommands
     {
-        private ConfigService configSrv;
-        private DatabaseService databaseSrv;
+        private readonly ConfigService configSrv;
+        private readonly DatabaseService databaseSrv;
 
         public AdminCommands(ConfigService configService, DatabaseService databaseService)
         {
@@ -86,13 +86,7 @@ namespace OtherWorldBot.Commands
         {
             await ctx.TriggerTypingAsync();
 
-            Country foundCountry = null;
-
-            try
-            {
-                foundCountry = await databaseSrv.GetCountryByNameAsync(countryName);
-            }
-            catch (Exception) { }
+            Country foundCountry = await databaseSrv.GetCountryByNameAsync(countryName);
 
             if (foundCountry == null)
             {
@@ -190,13 +184,7 @@ namespace OtherWorldBot.Commands
         {
             await ctx.TriggerTypingAsync();
 
-            Country foundCountry = null;
-
-            try
-            {
-                foundCountry = await databaseSrv.GetCountryByNameAsync(countryName);
-            }
-            catch (Exception) { }
+            Country foundCountry = await databaseSrv.GetCountryByNameAsync(countryName);
 
             if (foundCountry == null)
             {

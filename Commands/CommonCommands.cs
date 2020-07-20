@@ -15,9 +15,9 @@ namespace OtherWorldBot.Commands
     [Description("Команды пользователя.")]
     public class CommonCommands
     {
-        private ConfigService configSrv;
-        private DatabaseService databaseSrv;
-        private ScheduleUpdateService scheduleUpdateSrv;
+        private readonly ConfigService configSrv;
+        private readonly DatabaseService databaseSrv;
+        private readonly ScheduleUpdateService scheduleUpdateSrv;
 
         public CommonCommands(ConfigService configService, DatabaseService databaseService, ScheduleUpdateService scheduleUpdateService)
         {
@@ -82,10 +82,6 @@ namespace OtherWorldBot.Commands
         [Aliases("время")]
         public async Task ShowTimeTillUpdate(CommandContext ctx)
         {
-            double minutes = scheduleUpdateSrv.GetTimeTillUpdate().TotalMinutes;
-            double hours = Math.Floor((float)(minutes / 60));
-            minutes -= hours * 60;
-
             string description = $"Очки стран будут обновлены через ";
             description += string.Format(new TimeWordFormatter(), "{0:W}", scheduleUpdateSrv.GetTimeTillUpdate());
             description += ".";
