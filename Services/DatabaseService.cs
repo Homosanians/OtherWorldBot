@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OtherWorldBot.Services
 {
-    public class DatabaseService
+    public class DatabaseService : IDisposable
     {      
         private readonly ApplicationContext db;
 
@@ -126,6 +126,12 @@ namespace OtherWorldBot.Services
             {
                 return false;
             }
+        }
+
+        public void Dispose()
+        {
+            ss.Dispose();
+            db.Dispose();
         }
     }
 }
