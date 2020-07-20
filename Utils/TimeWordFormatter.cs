@@ -16,7 +16,9 @@ namespace OtherWorldBot.Utils
         public string Format(string format, object arg, IFormatProvider formatProvider)
         {
             if (arg == null || !(arg is TimeSpan) || format != "W")
+            {
                 return string.Format("{0:" + format + "}", arg);
+            }
 
             TimeSpan time = (TimeSpan)arg;
 
@@ -32,11 +34,19 @@ namespace OtherWorldBot.Utils
             value = Math.Abs(value) % 100;
 
             if (value > 10 && value < 15)
+            {
                 return options[2];
+            }
 
             value %= 10;
-            if (value == 1) return options[0];
-            if (value > 1 && value < 5) return options[1];
+            if (value == 1)
+            { 
+                return options[0]; 
+            }
+            if (value > 1 && value < 5) 
+            {
+                return options[1]; 
+            }
             return options[2];
         }
     }

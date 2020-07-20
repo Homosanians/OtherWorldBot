@@ -86,9 +86,13 @@ namespace OtherWorldBot.Services
             ss.Release();
 
             if (result == 1)
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
 
         public async Task<bool> UpdateCountryAsync(Country newCountry)
@@ -108,9 +112,13 @@ namespace OtherWorldBot.Services
             ss.Release();
 
             if (result == 1)
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
     }
 }
