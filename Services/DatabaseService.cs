@@ -11,15 +11,10 @@ using System.Threading.Tasks;
 namespace OtherWorldBot.Services
 {
     public class DatabaseService
-    {
-        // SQLite3 (EF6)
-        // Databse file: bot.db
-        // Collection name: Counties
-        // Entry name: Country
-       
-        private ApplicationContext db;
+    {      
+        private readonly ApplicationContext db;
 
-        private SemaphoreSlim ss = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim ss = new SemaphoreSlim(1, 1);
 
         public DatabaseService()
         {

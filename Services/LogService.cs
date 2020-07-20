@@ -5,7 +5,7 @@ namespace OtherWorldBot.Services
 {
     public class LogService
     {
-        private DiscordClient _client;
+        private readonly DiscordClient _client;
 
         public LogService(DiscordClient client)
         {
