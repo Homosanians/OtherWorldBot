@@ -36,7 +36,7 @@ namespace OtherWorldBot.Services
             }
         }
 
-        public BotConfig GetConfig()
+        public static BotConfig GetConfig()
         {
             using (var sr = new StreamReader("config.json"))
             {
@@ -44,7 +44,7 @@ namespace OtherWorldBot.Services
             }
         }
 
-        public void SetConfig(BotConfig config)
+        public static void SetConfig(BotConfig config)
         {
             using (var sw = new StreamWriter("config.json"))
             {
