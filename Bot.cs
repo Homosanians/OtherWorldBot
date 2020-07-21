@@ -149,7 +149,7 @@ namespace OtherWorldBot
                     $"Остальную информацию ты сможешь найти в канале #информация\n" +
                     $"\n" +
                     $"До скорых встреч! :wave:",
-                    Footer = new DiscordEmbedBuilder.EmbedFooter() { Text = "Other World" }
+                    Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
                 };
 
                 e.Member.SendMessageAsync(embed: embed);
