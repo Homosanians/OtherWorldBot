@@ -30,9 +30,8 @@ namespace OtherWorldBot.Services
         {
             if (!File.Exists("config.json"))
             {
-                Console.WriteLine("Configuration file was not found. A new one is beeing created.");
                 SetConfig(new BotConfig());
-                Environment.Exit(0);
+                Environment.Exit(-1);
             }
         }
 
