@@ -127,7 +127,7 @@ namespace OtherWorldBot
             // command.
 
             // and this is to prevent premature quitting
-            await Task.Delay(-1);
+            await Task.Delay(-1).ConfigureAwait(false);
         }
 
         private Task Client_GuildMemberAdded(GuildMemberAddEventArgs e)
