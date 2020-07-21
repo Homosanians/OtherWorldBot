@@ -35,7 +35,7 @@ namespace OtherWorldBot.Services
 
         public async Task<bool> IsCountryExistAsync(string name)
         {
-            await ss.WaitAsync();
+            await ss.WaitAsync().ConfigureAwait(false);
 
             var result = await db.Countries
                 .AnyAsync(b => b.Name == name);
@@ -49,7 +49,7 @@ namespace OtherWorldBot.Services
         {
             try
             {
-                await ss.WaitAsync();
+                await ss.WaitAsync().ConfigureAwait(false);
 
                 var country = await db.Countries
                     .FirstOrDefaultAsync(b => b.Name == name);
@@ -70,7 +70,7 @@ namespace OtherWorldBot.Services
 
             db.Countries.Add(country);
 
-            await ss.WaitAsync();
+            await ss.WaitAsync().ConfigureAwait(false);
 
             int result = await db.SaveChangesAsync();
 
@@ -90,7 +90,7 @@ namespace OtherWorldBot.Services
         {
             db.Remove(country);
 
-            await ss.WaitAsync();
+            await ss.WaitAsync().ConfigureAwait(false);
 
             int result = await db.SaveChangesAsync();
 
@@ -116,7 +116,7 @@ namespace OtherWorldBot.Services
 
             db.Update(newCountry);
 
-            await ss.WaitAsync();
+            await ss.WaitAsync().ConfigureAwait(false);
 
             int result = await db.SaveChangesAsync();
 
