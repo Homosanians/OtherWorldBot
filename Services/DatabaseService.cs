@@ -112,7 +112,9 @@ namespace OtherWorldBot.Services
 
             // Cannot be less than zero
             if (newCountry.DisgracePoints < 0)
+            {
                 newCountry.DisgracePoints = 0;
+            }
 
             db.Update(newCountry);
 
