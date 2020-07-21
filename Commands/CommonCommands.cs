@@ -86,7 +86,7 @@ namespace OtherWorldBot.Commands
             description += string.Format(new TimeWordFormatter(), "{0:W}", scheduleUpdateSrv.GetTimeTillUpdate());
             description += ".";
 
-            var embed = new Discord​Embed​Builder()
+            var embed = new Discord​Embed​Builder
             {
                 Color = new DiscordColor(configSrv.BotConfig.CommonColor),
                 Title = "Время до обновления",

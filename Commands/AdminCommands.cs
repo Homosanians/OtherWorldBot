@@ -108,7 +108,7 @@ namespace OtherWorldBot.Commands
                 var emojiConfirm = DiscordEmoji.FromName(ctx.Client, ":white_check_mark:");
                 var emojiCancel = DiscordEmoji.FromName(ctx.Client, ":x:");
 
-                var embed = new Discord​Embed​Builder()
+                var embed = new Discord​Embed​Builder
                 {
                     Color = new DiscordColor(configSrv.BotConfig.CommonColor),
                     Title = "Удаление страны",
