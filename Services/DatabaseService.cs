@@ -23,7 +23,7 @@ namespace OtherWorldBot.Services
 
         public async Task<Country[]> GetAllCountriesAsync()
         {
-            await ss.WaitAsync();
+            await ss.WaitAsync().ConfigureAwait(false);
 
             var countries = await db.Countries
                 .ToArrayAsync();
@@ -77,9 +77,13 @@ namespace OtherWorldBot.Services
             ss.Release();
 
             if (result == 1)
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
 
         public async Task<bool> RemoveCountryAsync(Country country)
