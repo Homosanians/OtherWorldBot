@@ -4,7 +4,7 @@
 
 <p align="center"><img src="https://app.codacy.com/project/badge/Grade/37156bf972d3435baae36087497d1bb5"></img></p>
 
-<p align="center">Made for Other World community Discord server.</p>
+<p align="center">Made for Other World community Discord server</p>
 
 ## Build
 
