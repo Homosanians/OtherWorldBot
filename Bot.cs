@@ -38,7 +38,6 @@ namespace OtherWorldBot
                 UseInternalLogHandler = true
             };
 
-            // then we want to instantiate our client
             this.Client = new DiscordClient(cfg);
             this.LogService = new LogService(Client);
             this.DatabaseService = new DatabaseService();
@@ -51,82 +50,51 @@ namespace OtherWorldBot
                 .AddInstance(ScheduleUpdateService)
                 .Build();
 
-            // If you are on Windows 7 and using .NETFX, install 
-            // DSharpPlus.WebSocket.WebSocket4Net from NuGet,
-            // add appropriate usings, and uncomment the following
-            // line
-            //this.Client.SetWebSocketClient<WebSocket4NetClient>();
-
-            // If you are on Windows 7 and using .NET Core, install 
-            // DSharpPlus.WebSocket.WebSocket4NetCore from NuGet,
-            // add appropriate usings, and uncomment the following
-            // line
-            //this.Client.SetWebSocketClient<WebSocket4NetCoreClient>();
-
-            // If you are using Mono, install 
-            // DSharpPlus.WebSocket.WebSocketSharp from NuGet,
-            // add appropriate usings, and uncomment the following
-            // line
-            //this.Client.SetWebSocketClient<WebSocketSharpClient>();
-
-            // if using any alternate socket client implementations, 
-            // remember to add the following to the top of this file:
-            //using DSharpPlus.Net.WebSocket;
-
-            // next, let's hook some events, so we know
-            // what's going on
             this.Client.Ready += this.Client_Ready;
             this.Client.GuildAvailable += this.Client_GuildAvailable;
             this.Client.ClientErrored += this.Client_ClientError;
             this.Client.GuildMemberAdded += Client_GuildMemberAdded;
             
-            // let's enable interactivity, and set default options
             this.Client.UseInteractivity(new InteractivityConfiguration
             {
-                // default pagination behaviour to just ignore the reactions
+                // Default pagination behaviour to just ignore the reactions
                 PaginationBehaviour = TimeoutBehaviour.Ignore,
 
-                // default pagination timeout to 5 minutes
+                // Default pagination timeout to 5 minutes
                 PaginationTimeout = TimeSpan.FromMinutes(5),
                 
-                // default timeout for other actions to 2 minutes
+                // Default timeout for other actions to 2 minutes
                 Timeout = TimeSpan.FromMinutes(2)
             });
             
-            // up next, let's set up our commands
             var ccfg = new CommandsNextConfiguration
             {
-                // let's use the string prefix defined in config.json
+                // Use the string prefix defined in config.json
                 StringPrefix = ConfigService.BotConfig.CommandPrefix,
                 
-                // enable responding in direct messages
+                // Disable responding in direct messages
                 EnableDms = false,
+                
+                // Pass built DI collection
                 Dependencies = deps,
-                // enable mentioning the bot as a command prefix
+                
+                // Enable mentioning the bot as a command prefix
                 EnableMentionPrefix = true
             };
 
-            // and hook them up
             this.Commands = this.Client.UseCommandsNext(ccfg);
 
-            // let's hook some command events, so we know what's 
-            // going on
             this.Commands.CommandExecuted += this.Commands_CommandExecuted;
             this.Commands.CommandErrored += this.Commands_CommandErrored;
 
-            // up next, let's register our commands
+            // Register the commands
             this.Commands.RegisterCommands<CommonCommands>();
             this.Commands.RegisterCommands<AdminCommands>();
 
-            // finally, let's connect and log in
+            // Connect and log in
             await this.Client.ConnectAsync();
-            
-            // when the bot is running, try doing <prefix>help
-            // to see the list of registered commands, and 
-            // <prefix>help <command> to see help about specific
-            // command.
 
-            // and this is to prevent premature quitting
+            // Prevent premature quitting
             await Task.Delay(-1).ConfigureAwait(false);
         }
 
@@ -160,68 +128,50 @@ namespace OtherWorldBot
 
         private Task Client_Ready(ReadyEventArgs e)
         {
-            // let's log the fact that this event occured
             e.Client.DebugLogger.LogMessage(LogLevel.Info, "OtherWorld", "Client is ready to process events.", DateTime.Now);
 
-            // Let's set a tooltip help command game
+            // Let's set a help command info
             this.Client.UpdateStatusAsync(new DiscordGame($"{this.ConfigService.BotConfig.CommandPrefix}show"));
 
-            // since this method is not async, let's return
-            // a completed task, so that no additional work
-            // is done
+            // Since this method is not async, let's return 
+            // a completed task, so that no additional work is done
             return Task.CompletedTask;
         }
 
         private Task Client_GuildAvailable(GuildCreateEventArgs e)
         {
-            // let's log the name of the guild that was just
-            // sent to our client
+            // Log the name of the guild that was just sent to our client
             e.Client.DebugLogger.LogMessage(LogLevel.Info, "OtherWorld", $"Guild available: {e.Guild.Name}", DateTime.Now);
 
-            // since this method is not async, let's return
-            // a completed task, so that no additional work
-            // is done
             return Task.CompletedTask;
         }
 
         private Task Client_ClientError(ClientErrorEventArgs e)
         {
-            // let's log the details of the error that just 
-            // occured in our client
+            // Log the details of the error that just occured in our client
             e.Client.DebugLogger.LogMessage(LogLevel.Error, "OtherWorld", $"Exception occured: {e.Exception.GetType()}: {e.Exception.Message}\n{e.Exception.StackTrace}", DateTime.Now);
 
-            // since this method is not async, let's return
-            // a completed task, so that no additional work
-            // is done
             return Task.CompletedTask;
         }
 
         private Task Commands_CommandExecuted(CommandExecutionEventArgs e)
         {
-            // let's log the name of the command and user
+            // Log the name of the command and user
             e.Context.Client.DebugLogger.LogMessage(LogLevel.Info, "OtherWorld", $"{e.Context.User.Username} successfully executed '{e.Command.QualifiedName}'", DateTime.Now);
-
-            // since this method is not async, let's return
-            // a completed task, so that no additional work
-            // is done
+            
             return Task.CompletedTask;
         }
 
         private async Task Commands_CommandErrored(CommandErrorEventArgs e)
         {
-            // let's log the error details
+            // Log the error details
             e.Context.Client.DebugLogger.LogMessage(LogLevel.Error, "OtherWorld", $"{e.Context.User.Username} tried executing '{e.Command?.QualifiedName ?? "<unknown command>"}' but it errored: {e.Exception.GetType()}: {e.Exception.Message ?? "<no message>"}\n{e.Exception.StackTrace}", DateTime.Now);
 
-            // let's check if the error is a result of lack
-            // of required permissions
+            // Check if the error is a result of lack of required permissions
             if (e.Exception is ChecksFailedException)
             {
-                // yes, the user lacks required permissions, 
-                // let them know
-
                 var emoji = DiscordEmoji.FromName(e.Context.Client, ":no_entry:");
 
-                // let's wrap the response into an embed
                 var embed = new DiscordEmbedBuilder
                 {
                     Title = "Доступ запрещен",
