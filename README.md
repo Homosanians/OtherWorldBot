@@ -13,8 +13,6 @@ dotnet publish -c Release -f netcoreapp3.1 -r <arch>
 ```
 
 ```bash
-docker rm --force owbot
-docker rmi homosanians/otherworldbot:latest
 docker build -t homosanians/otherworldbot:latest .
 docker run -d -v /opt/owbot_data:/data --restart unless-stopped --name owbot homosanians/otherworldbot:latest
 ```
