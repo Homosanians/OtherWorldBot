@@ -80,7 +80,6 @@ namespace OtherWorldBot.Commands
             }
         }
 
-        // сначало чек на существование, а потом всё остальное. если нет, то красная ошибка. если есть, то везде пишем название, даже если получили страну из ИД
         [Command("remove"), Aliases("del", "delete"), Description("Удаляет страну.")]
         public async Task Remove(CommandContext ctx, [RemainingText, Description("Название страны.")] string countryName)
         {
