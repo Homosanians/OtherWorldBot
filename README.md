@@ -1,8 +1,10 @@
-# Other World Bot
+<p align="center"><b>Other World Bot</b></p>
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/37156bf972d3435baae36087497d1bb5)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Homosanians/OtherWorldBot&amp;utm_campaign=Badge_Grade)
+<p align="center"><img src="https://cdn.discordapp.com/avatars/733404944635527208/be9c8683a0171bd111808b0159e3c360.png?size=128"></img></p>
 
-Made for Other World community Discord server.
+<p align="center"><img src="https://app.codacy.com/project/badge/Grade/37156bf972d3435baae36087497d1bb5"></img></p>
+
+<p align="center">Made for Other World community Discord server.</p>
 
 ## Build
 
