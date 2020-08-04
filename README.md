@@ -19,10 +19,6 @@ docker run -d -v /opt/owbot_data:/data --restart unless-stopped --name owbot hom
 
 ## Deploy
 
-### Daemon
-
-No daemon instructions
-
 ### Docker
 
 ```bash
