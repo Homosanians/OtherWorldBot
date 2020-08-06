@@ -45,7 +45,6 @@ namespace OtherWorldBot.Commands
                 }
                 else
                 {
-                    // DATABASE ACTIONS HERE
                     var entry = new Country();
                     entry.Name = countryName;
                     entry.DisgracePoints = 0;
@@ -137,7 +136,6 @@ namespace OtherWorldBot.Commands
                 }
                 else if (reactionCtx.Emoji == emojiConfirm)
                 {
-                    // DATABASE ACTIONS HERE
                     bool deleted = await databaseSrv.RemoveCountryAsync(foundCountry);
                     if (deleted)
                     {
@@ -203,7 +201,6 @@ namespace OtherWorldBot.Commands
                 {
                     // Начисляет
 
-                    // DATABASE ACTIONS HERE
                     foundCountry.DisgracePoints += amount;
                     bool successed = await databaseSrv.UpdateCountryAsync(foundCountry);
 
@@ -241,7 +238,6 @@ namespace OtherWorldBot.Commands
                     {
                         int previousValue = foundCountry.DisgracePoints;
 
-                        // DATABASE ACTIONS HERE
                         foundCountry.DisgracePoints = 0;
                         bool successed = await databaseSrv.UpdateCountryAsync(foundCountry);
 
@@ -272,7 +268,6 @@ namespace OtherWorldBot.Commands
                     }
                     else
                     {
-                        // DATABASE ACTIONS HERE
                         foundCountry.DisgracePoints += amount;
                         bool successed = await databaseSrv.UpdateCountryAsync(foundCountry);
 
