@@ -1,66 +1,71 @@
-﻿using OtherWorldBot.Data;
-using OtherWorldBot.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using OtherWorldBot.Data;
+using OtherWorldBot.Entities;
 
 namespace OtherWorldBot.Services
 {
     public class DatabaseService : IDisposable
-    {      
+    {
         private readonly ApplicationContext db;
-
-        private readonly SemaphoreSlim ss = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim dbLock;
 
         public DatabaseService()
         {
             db = new ApplicationContext();
+            dbLock = new SemaphoreSlim(1, 1);
         }
 
         public async Task<Country[]> GetAllCountriesAsync()
         {
-            await ss.WaitAsync().ConfigureAwait(false);
+            await dbLock.WaitAsync().ConfigureAwait(false);
 
-            var countries = await db.Countries
-                .ToArrayAsync();
+            try
+            {
+                var countries = await db.Countries
+                    .ToArrayAsync();
 
-            ss.Release();
-
-            return countries;
+                return countries;
+            }
+            finally
+            {
+                dbLock.Release();
+            }
         }
 
         public async Task<bool> IsCountryExistAsync(string name)
         {
-            await ss.WaitAsync().ConfigureAwait(false);
+            await dbLock.WaitAsync().ConfigureAwait(false);
 
-            var result = await db.Countries
-                .AnyAsync(b => b.Name == name);
+            try
+            {
+                var result = await db.Countries
+                    .AnyAsync(b => b.Name == name);
 
-            ss.Release();
-
-            return result;
+                return result;
+            }
+            finally
+            {
+                dbLock.Release();
+            }
         }
 
         public async Task<Country> GetCountryByNameAsync(string name)
         {
+            await dbLock.WaitAsync().ConfigureAwait(false);
+
             try
             {
-                await ss.WaitAsync().ConfigureAwait(false);
-
                 var country = await db.Countries
                     .FirstOrDefaultAsync(b => b.Name == name);
 
-                ss.Release();
-
                 return country;
             }
-            catch (Exception)
+            finally
             {
-                return null;
+                dbLock.Release();
             }
         }
 
@@ -70,19 +75,24 @@ namespace OtherWorldBot.Services
 
             db.Countries.Add(country);
 
-            await ss.WaitAsync().ConfigureAwait(false);
+            await dbLock.WaitAsync().ConfigureAwait(false);
 
-            int result = await db.SaveChangesAsync();
-
-            ss.Release();
-
-            if (result == 1)
+            try
             {
-                return true;
+                int result = await db.SaveChangesAsync();
+
+                if (result == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            finally
             {
-                return false;
+                dbLock.Release();
             }
         }
 
@@ -90,19 +100,24 @@ namespace OtherWorldBot.Services
         {
             db.Remove(country);
 
-            await ss.WaitAsync().ConfigureAwait(false);
+            await dbLock.WaitAsync().ConfigureAwait(false);
 
-            int result = await db.SaveChangesAsync();
-
-            ss.Release();
-
-            if (result == 1)
+            try
             {
-                return true;
+                int result = await db.SaveChangesAsync();
+
+                if (result == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            finally
             {
-                return false;
+                dbLock.Release();
             }
         }
 
@@ -118,26 +133,31 @@ namespace OtherWorldBot.Services
 
             db.Update(newCountry);
 
-            await ss.WaitAsync().ConfigureAwait(false);
+            await dbLock.WaitAsync().ConfigureAwait(false);
 
-            int result = await db.SaveChangesAsync();
-
-            ss.Release();
-
-            if (result == 1)
+            try
             {
-                return true;
+                int result = await db.SaveChangesAsync();
+
+                if (result == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            finally
             {
-                return false;
+                dbLock.Release();
             }
         }
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
-            ss.Dispose();
-            db.Dispose();
+            dbLock?.Dispose();
+            db?.Dispose();
         }
     }
 }
