@@ -28,7 +28,7 @@ namespace OtherWorldBot.Services
 
         private async void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
-            _logService.Log(LogLevel.Debug, "ScheduleUpdateService", "Starting update routine...");
+            _logService.Debug(LogService.Application.Service, "Starting update routine...");
 
             int today = DateTime.UtcNow.Day;
             
