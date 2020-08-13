@@ -29,7 +29,6 @@ namespace OtherWorldBot.Handlers
 
         private async Task Commands_CommandErrored(CommandErrorEventArgs e)
         {
-            // Log the error details
             e.Context.Client.DebugLogger.LogMessage(LogLevel.Error, "OtherWorld", $"{e.Context.User.Username} tried executing '{e.Command?.QualifiedName ?? "<unknown command>"}' but it errored: {e.Exception.GetType()}: {e.Exception.Message ?? "<no message>"}\n{e.Exception.StackTrace}", DateTime.Now);
 
             // Check if the error is a result of lack of required permissions
@@ -49,7 +48,6 @@ namespace OtherWorldBot.Handlers
 
         private Task Commands_CommandExecuted(CommandExecutionEventArgs e)
         {
-            // Log the name of the command and user
             e.Context.Client.DebugLogger.LogMessage(LogLevel.Info, "OtherWorld", $"{e.Context.User.Username} successfully executed '{e.Command.QualifiedName}'", DateTime.Now);
 
             return Task.CompletedTask;

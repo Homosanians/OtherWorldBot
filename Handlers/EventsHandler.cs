@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Text;
 using OtherWorldBot.Services;
 using DSharpPlus.Entities;
+using DSharpPlus.EventArgs;
 
 namespace OtherWorldBot.Handlers
 {
@@ -24,7 +25,7 @@ namespace OtherWorldBot.Handlers
             this.client.GuildMemberAdded += Client_GuildMemberAdded;
         }
 
-        private Task Client_GuildMemberAdded(DSharpPlus.EventArgs.GuildMemberAddEventArgs e)
+        private Task Client_GuildMemberAdded(GuildMemberAddEventArgs e)
         {
             if (!e.Member.IsBot)
             {
@@ -52,7 +53,7 @@ namespace OtherWorldBot.Handlers
             return Task.CompletedTask;
         }
 
-        private Task Client_ClientErrored(DSharpPlus.EventArgs.ClientErrorEventArgs e)
+        private Task Client_ClientErrored(ClientErrorEventArgs e)
         {
             // Log the details of the error that just occured in our client
             e.Client.DebugLogger.LogMessage(LogLevel.Error, "OtherWorld", $"Exception occured: {e.Exception.GetType()}: {e.Exception.Message}\n{e.Exception.StackTrace}", DateTime.Now);
@@ -60,7 +61,7 @@ namespace OtherWorldBot.Handlers
             return Task.CompletedTask;
         }
 
-        private Task Client_GuildAvailable(DSharpPlus.EventArgs.GuildCreateEventArgs e)
+        private Task Client_GuildAvailable(GuildCreateEventArgs e)
         {
             // Log the name of the guild that was just sent to our client
             e.Client.DebugLogger.LogMessage(LogLevel.Info, "OtherWorld", $"Guild available: {e.Guild.Name}", DateTime.Now);
@@ -68,15 +69,13 @@ namespace OtherWorldBot.Handlers
             return Task.CompletedTask;
         }
 
-        private Task Client_Ready(DSharpPlus.EventArgs.ReadyEventArgs e)
+        private Task Client_Ready(ReadyEventArgs e)
         {
             e.Client.DebugLogger.LogMessage(LogLevel.Info, "OtherWorld", "Client is ready to process events.", DateTime.Now);
 
             // Let's set a help command info
             client.UpdateStatusAsync(new DiscordGame($"{configService.BotConfig.CommandPrefix}show"));
 
-            // Since this method is not async, let's return 
-            // a completed task, so that no additional work is done
             return Task.CompletedTask;
         }
     }

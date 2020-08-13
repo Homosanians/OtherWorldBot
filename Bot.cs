@@ -20,7 +20,7 @@ namespace OtherWorldBot
 
         public async Task InitAsync()
         {
-            this.ConfigService = new ConfigService();
+            ConfigService = new ConfigService();
             
             var cfg = new DiscordConfiguration
             {
@@ -32,10 +32,10 @@ namespace OtherWorldBot
                 UseInternalLogHandler = true
             };
 
-            this.Client = new DiscordClient(cfg);
-            this.LogService = new LogService(Client);
-            this.DatabaseService = new DatabaseService();
-            this.ScheduleUpdateService = new ScheduleUpdateService(LogService, ConfigService, DatabaseService);
+            Client = new DiscordClient(cfg);
+            LogService = new LogService(Client);
+            DatabaseService = new DatabaseService();
+            ScheduleUpdateService = new ScheduleUpdateService(LogService, ConfigService, DatabaseService);
            
             var deps = new DependencyCollectionBuilder()
                 .AddInstance(ConfigService)
@@ -43,42 +43,28 @@ namespace OtherWorldBot
                 .AddInstance(DatabaseService)
                 .AddInstance(ScheduleUpdateService)
                 .AddInstance(new EventsHandler(Client, ConfigService))
-                .AddInstance(new CommandHandler(Commands, ConfigService))
                 .Build();
             
-            this.Client.UseInteractivity(new InteractivityConfiguration
+            Client.UseInteractivity(new InteractivityConfiguration
             {
-                // Default pagination behaviour to just ignore the reactions
                 PaginationBehaviour = TimeoutBehaviour.Ignore,
-
-                // Default pagination timeout to 5 minutes
                 PaginationTimeout = TimeSpan.FromMinutes(5),
-                
-                // Default timeout for other actions to 2 minutes
                 Timeout = TimeSpan.FromMinutes(2)
             });
             
-            var ccfg = new CommandsNextConfiguration
+            var commandsConfig = new CommandsNextConfiguration
             {
-                // Use the string prefix defined in config.json
                 StringPrefix = ConfigService.BotConfig.CommandPrefix,
-                
-                // Disable responding in direct messages
                 EnableDms = false,
-                
-                // Pass built DI collection
-                Dependencies = deps,
-                
-                // Enable mentioning the bot as a command prefix
+                Dependencies = deps,                
                 EnableMentionPrefix = true
             };
 
-            this.Commands = this.Client.UseCommandsNext(ccfg);
+            Commands = this.Client.UseCommandsNext(commandsConfig);
+            new CommandHandler(Commands, ConfigService);
 
-            // Connect and log in
-            await this.Client.ConnectAsync();
+            await Client.ConnectAsync();
 
-            // Prevent premature quitting
             await Task.Delay(-1).ConfigureAwait(false);
         }
     }
