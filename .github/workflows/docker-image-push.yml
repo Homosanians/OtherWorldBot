@@ -24,3 +24,4 @@ jobs:
         repository: homosanians/otherworldbot
         tags: latest
         build_args: GIT_COMMIT=$(git log -1 --format=%h)
+        add_git_labels: true 
