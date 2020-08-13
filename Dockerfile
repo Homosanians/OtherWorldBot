@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 WORKDIR /app
 
 RUN echo 'hey'
-RUN echo '$GIT_COMMIT'
+RUN echo $GIT_COMMIT
 
 VOLUME ["/data"]
 
