@@ -1,5 +1,5 @@
 ARG GIT_COMMIT=unspecified
-
+RUN echo $GIT_COMMIT
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 WORKDIR /app
 
