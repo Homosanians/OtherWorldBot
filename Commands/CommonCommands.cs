@@ -101,6 +101,7 @@ namespace OtherWorldBot.Commands
 
         [Command("version")]
         [Description("Отображает версию текущей сборки")]
+        [Aliases("v")]
         public async Task SendCurrentVersion(CommandContext ctx)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
