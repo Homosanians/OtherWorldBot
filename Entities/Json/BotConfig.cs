@@ -15,6 +15,9 @@ namespace OtherWorldBot.Entities
         [JsonProperty("PlayingGameString")]
         public string PlayingGameString { get; private set; } = "+show";
 
+        [JsonProperty("GuestRoleName")]
+        public string GuestRoleName { get; private set; } = "Гость";
+
         [JsonProperty("LogLevel")]
         public LogLevel LogLevel { get; private set; } = LogLevel.Info;
 

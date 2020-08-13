@@ -6,6 +6,7 @@ using System.Text;
 using OtherWorldBot.Services;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+using System.Linq;
 
 namespace OtherWorldBot.Handlers
 {
@@ -48,6 +49,9 @@ namespace OtherWorldBot.Handlers
                 };
 
                 e.Member.SendMessageAsync(embed: embed);
+
+                var role = e.Guild.Roles.FirstOrDefault(x => x.Name == configService.BotConfig.GuestRoleName);
+                e.Member.GrantRoleAsync(role);
             }
 
             return Task.CompletedTask;
