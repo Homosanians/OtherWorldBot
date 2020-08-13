@@ -24,4 +24,3 @@ jobs:
         repository: homosanians/otherworldbot
         tags: latest
         build_args: GIT_COMMIT="master"
-        add_git_labels: true 
