@@ -9,6 +9,8 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
+using System.Reflection;
+using System.Diagnostics;
 
 namespace OtherWorldBot.Commands
 {
@@ -91,6 +93,25 @@ namespace OtherWorldBot.Commands
                 Color = new DiscordColor(configSrv.BotConfig.CommonColor),
                 Title = "Время до обновления",
                 Description = description,
+                Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
+            };
+
+            await ctx.RespondAsync(embed: embed);
+        }
+
+        [Command("version")]
+        [Description("Отображает версию текущей сборки")]
+        public async Task SendCurrentVersion(CommandContext ctx)
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            string version = fvi.FileVersion;
+
+            var embed = new Discord​Embed​Builder
+            {
+                Color = new DiscordColor(configSrv.BotConfig.CommonColor),
+                Title = "Версия",
+                Description = $"Сборка {version}",
                 Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
             };
 
