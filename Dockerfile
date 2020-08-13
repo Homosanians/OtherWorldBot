@@ -3,6 +3,9 @@ ARG GIT_COMMIT=unspecified
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 WORKDIR /app
 
+RUN echo 'hey'
+RUN echo '$GIT_COMMIT'
+
 VOLUME ["/data"]
 
 # Copy csproj and restore as distinct layers
