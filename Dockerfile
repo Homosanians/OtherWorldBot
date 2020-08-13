@@ -11,7 +11,7 @@ RUN dotnet restore
 COPY . ./
 ARG GIT_BRANCH=master
 ARG GIT_COMMIT=unspecified
-RUN echo 'hey $GIT_BRANCH-$GIT_COMMIT'
+RUN echo $GIT_BRANCH-$GIT_COMMIT
 RUN dotnet publish -c Release -p:FileDescription=$GIT_BRANCH-$GIT_COMMIT -o out
 
 # Build runtime image
