@@ -12,7 +12,7 @@ COPY . ./
 ARG GIT_BRANCH=master
 ARG GIT_COMMIT=unspecified
 
-RUN dotnet publish -c Release -p:FileDescription=$GIT_BRANCH-$GIT_COMMIT -o out
+RUN dotnet publish -c Release -p:Product=OtherWorldBot-$GIT_BRANCH-$GIT_COMMIT -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1

@@ -110,7 +110,7 @@ namespace OtherWorldBot.Commands
             {
                 Color = new DiscordColor(configSrv.BotConfig.CommonColor),
                 Title = "Версия",
-                Description = $"Сборка {fvi.FileDescription}\n{fvi.LegalCopyright}",
+                Description = $"Сборка {fvi.ProductName}\n{fvi.LegalCopyright}",
                 Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
             };
 
