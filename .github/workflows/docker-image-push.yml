@@ -15,12 +15,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
+      
     - name: Build and push Docker images
       uses: docker/build-push-action@v1
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: homosanians/otherworldbot
-        build_args: GIT_COMMIT=kok
+        build_args: GIT_COMMIT=$(git rev-parse --short "$GITHUB_SHA"),GIT_BRANCH=${GITHUB_REF##*/}
         tags: latest
