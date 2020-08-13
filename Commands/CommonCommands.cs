@@ -105,13 +105,13 @@ namespace OtherWorldBot.Commands
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-            string version = fvi.FileVersion;
+            string version = fvi.FileDescription;
 
             var embed = new Discord​Embed​Builder
             {
                 Color = new DiscordColor(configSrv.BotConfig.CommonColor),
                 Title = "Версия",
-                Description = $"Сборка {version}",
+                Description = $"Сборка {version}\nАвторское право {fvi.LegalCopyright}",
                 Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
             };
 

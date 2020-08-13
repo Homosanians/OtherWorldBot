@@ -5,9 +5,12 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <StartupObject>OtherWorldBot.Program</StartupObject>
     <RepositoryType>Private</RepositoryType>
-    <Copyright>Alexander Emelyanov 2020</Copyright>
+    <Copyright>Alexander Emelyanov &lt;contact.emelyanov@gmail.com&gt;</Copyright>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
+    <RepositoryUrl>https://github.com/Homosanians/OtherWorldBot</RepositoryUrl>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
