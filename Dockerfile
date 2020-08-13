@@ -1,10 +1,10 @@
 ARG GIT_COMMIT="rainbow"
+ARG some_variable_name=default_value
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 WORKDIR /app
 
-RUN echo 'hey'
-RUN echo $GIT_COMMIT
+RUN echo "Oh look $some_variable_name"
 
 VOLUME ["/data"]
 
