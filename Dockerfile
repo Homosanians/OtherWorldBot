@@ -14,7 +14,7 @@ RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
-RUN dotnet publish -c Release -p:AssemblyVersion=$org.opencontainers.image.revision -o out
+RUN dotnet publish -c Release /p:AssemblyVersion=master -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
