@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      SHA8: ${{GITHUB_SHA::8}}
-      BRANCH: ${{GITHUB_REF:11}}
+      SHA8: ${GITHUB_SHA::8}
+      BRANCH: ${GITHUB_REF:11}
       
     steps:
     - name: Checkout code
@@ -26,5 +26,5 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: homosanians/otherworldbot
-        build_args: GIT_COMMIT=$SHA8,GIT_BRANCH=$BRANCH
+        build_args: GIT_COMMIT=${GITHUB_SHA::8},GIT_BRANCH=${GITHUB_REF:11}
         tags: latest
