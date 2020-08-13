@@ -1,10 +1,5 @@
-ARG GIT_COMMIT="rainbow"
-ARG some_variable_name=default_value
-
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 WORKDIR /app
-
-RUN echo "Oh look $some_variable_name"
 
 VOLUME ["/data"]
 
@@ -14,6 +9,8 @@ RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
+ARG GIT_COMMIT=unspecified
+RUN echo "Oh look $GIT_COMMIT"
 RUN dotnet publish -c Release /p:AssemblyVersion=$GIT_COMMIT -o out
 
 # Build runtime image
