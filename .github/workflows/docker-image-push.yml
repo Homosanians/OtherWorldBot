@@ -22,4 +22,5 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: homosanians/otherworldbot
+        build_args: GIT_COMMIT=$(git log -1 --format=%h)  
         tags: latest
