@@ -18,6 +18,11 @@ namespace OtherWorldBot.Services
             dbLock = new SemaphoreSlim(1, 1);
         }
 
+        private void InitializeNewDb()
+        {
+            // Создать Tables в пустой DB
+        }
+
         public async Task<Country[]> GetAllCountriesAsync()
         {
             await dbLock.WaitAsync().ConfigureAwait(false);
