@@ -14,10 +14,12 @@ namespace OtherWorldBot.Handlers
     public class CommandHandler
     {
         private readonly ConfigService configService;
+        private readonly LogService logService;
 
-        public CommandHandler(CommandsNextModule commands, ConfigService configService)
+        public CommandHandler(CommandsNextModule commands, ConfigService configService, LogService logService)
         {
             this.configService = configService;
+            this.logService = logService;
 
             commands.CommandExecuted += Commands_CommandExecuted;
             commands.CommandErrored += Commands_CommandErrored;
@@ -29,7 +31,11 @@ namespace OtherWorldBot.Handlers
 
         private async Task Commands_CommandErrored(CommandErrorEventArgs e)
         {
-            e.Context.Client.DebugLogger.LogMessage(LogLevel.Error, "OtherWorld", $"{e.Context.User.Username} tried executing '{e.Command?.QualifiedName ?? "<unknown command>"}' but it errored: {e.Exception.GetType()}: {e.Exception.Message ?? "<no message>"}\n{e.Exception.StackTrace}", DateTime.Now);
+            // Check if the error is a result of unknown command
+            if (e.Exception is CommandNotFoundException)
+            {
+                return;
+            }
 
             // Check if the error is a result of lack of required permissions
             if (e.Exception is ChecksFailedException)
@@ -44,11 +50,13 @@ namespace OtherWorldBot.Handlers
                 };
                 await e.Context.RespondAsync(embed: embed);
             }
+
+            logService.Error(LogService.Application.Bot, $"{e.Context.User.Username} tried executing '{e.Command?.QualifiedName ?? "<unknown command>"}' but it errored: {e.Exception.GetType()}: {e.Exception.Message ?? "<no message>"}\n{e.Exception.StackTrace}");
         }
 
         private Task Commands_CommandExecuted(CommandExecutionEventArgs e)
         {
-            e.Context.Client.DebugLogger.LogMessage(LogLevel.Info, "OtherWorld", $"{e.Context.User.Username} successfully executed '{e.Command.QualifiedName}'", DateTime.Now);
+            logService.Debug(LogService.Application.Bot, $"{e.Context.User.Username} successfully executed '{e.Command.QualifiedName}'");
 
             return Task.CompletedTask;
         }
