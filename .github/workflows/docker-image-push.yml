@@ -16,9 +16,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
       
-    - name: Get SHA8 of the commit
+    - name: Get commit metadata
       id: slug
-      run: echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
+      run: echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)" && echo "::set-output name=branch::$(echo ${GITHUB_REF} | cut -c12-999)"
       
     - name: Build and push Docker images
       uses: docker/build-push-action@v1
@@ -26,5 +26,5 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: homosanians/otherworldbot
-        build_args: GIT_COMMIT=${{steps.slug.outputs.sha8}},GIT_BRANCH=${{GITHUB.REF}}
+        build_args: GIT_COMMIT=${{steps.slug.outputs.sha8}},GIT_BRANCH=${{steps.slug.outputs.branch}}
         tags: latest
