@@ -128,6 +128,11 @@ namespace OtherWorldBot.Commands
         {
             await ctx.TriggerTypingAsync();
 
+            if (ctx.Guild == null)
+            {
+                return;
+            }
+
             string description = "Участников — Роль\n";
             
             foreach (var el in ctx.Guild.Roles)
@@ -156,31 +161,36 @@ namespace OtherWorldBot.Commands
         {
             await ctx.TriggerTypingAsync();
 
-            var members = ctx.Guild.Members;
+            if (ctx.Guild == null)
+            {
+                return;
+            }
 
+            var members = ctx.Guild.Members;
+            
             // Людей всего
-            int membersCount = members.Count;
+            int membersCount = members.Where(x => x.IsBot == false).Count();
             // Людей онлайн (не оффлайн)
-            int membersOnlineCount = members.Where(x => x.Presence != null).Count();
+            int membersOnlineCount = members.Where(x => x.IsBot == false).Where(x => x.Presence != null).Count();
             // Людей в голосовых чатах сейчас
-            int membersInVoiceChatsCount = members.Where(x => x.VoiceState != null).Where(x => x.VoiceState.Channel != null).Count();
+            int membersInVoiceChatsCount = members.Where(x => x.IsBot == false).Where(x => x.VoiceState != null).Where(x => x.VoiceState.Channel != null).Count();
             // Людей играет
-            int membersPlaying = members.Where(x => x.Presence != null).Where(x => x.Presence.Game != null).Count();
+            int membersPlaying = members.Where(x => x.IsBot == false).Where(x => x.Presence != null).Where(x => x.Presence.Game != null).Count();
             // Ботов всего
             int botsCount = members.Where(x => x.IsBot == true).Count();
             // Ролей всего
             int rolesCount = ctx.Guild.Roles.Count;
             // За 24 часа присоединилось
-            int recentMembersCount = members.Where(x => x.JoinedAt.DateTime.ToUniversalTime().CompareTo(DateTime.UtcNow.AddDays(-1)) == 1).Count();
+            int recentMembersCount = members.Where(x => x.JoinedAt.DateTime.CompareTo(DateTime.Now.AddDays(-1)) == 1).Count();
 
             var embed = new Discord​Embed​Builder
             {
                 Color = new DiscordColor(configSrv.BotConfig.CommonColor),
                 Title = "Статистика",
-                Description = $"Пользователей всего {membersCount}\n" +
-                $"Пользователей онлайн {membersOnlineCount}\n" +
-                $"Пользователей в голосовых каналах {membersInVoiceChatsCount}\n" +
-                $"Пользователей играет {membersPlaying}\n" +
+                Description = $"Людей всего {membersCount}\n" +
+                $"Людей онлайн {membersOnlineCount}\n" +
+                $"Людей в голосовых каналах {membersInVoiceChatsCount}\n" +
+                $"Людей играет {membersPlaying}\n" +
                 $"Ботов всего {botsCount}\n" +
                 $"Ролей всего {rolesCount}\n" +
                 $"За последние 24 часа присоединились {recentMembersCount}",
