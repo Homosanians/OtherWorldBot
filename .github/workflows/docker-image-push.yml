@@ -27,4 +27,4 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: homosanians/otherworldbot
         build_args: GIT_COMMIT=${{steps.slug.outputs.sha8}},GIT_BRANCH=${{steps.slug.outputs.branch}}
-        tags: latest
+        tags: ${{steps.slug.outputs.branch}}
