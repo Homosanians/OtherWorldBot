@@ -132,8 +132,8 @@ namespace OtherWorldBot.Commands
             {
                 await ctx.RespondAsync(embed: new Discord​Embed​Builder
                 {
-                    Color = new DiscordColor(configSrv.BotConfig.CommonColor),
-                    Title = "Статистика",
+                    Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                    Title = "Ошибка",
                     Description = $"Данная команда не может быть выполнена в личных сообщениях",
                     Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
                 });
@@ -181,8 +181,8 @@ namespace OtherWorldBot.Commands
             {
                 await ctx.RespondAsync(embed: new Discord​Embed​Builder
                 {
-                    Color = new DiscordColor(configSrv.BotConfig.CommonColor),
-                    Title = "Статистика",
+                    Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                    Title = "Ошибка",
                     Description = $"Данная команда не может быть выполнена в личных сообщениях",
                     Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
                 });
