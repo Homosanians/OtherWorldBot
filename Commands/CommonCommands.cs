@@ -130,18 +130,34 @@ namespace OtherWorldBot.Commands
 
             if (ctx.Guild == null)
             {
+                await ctx.RespondAsync(embed: new Discord​Embed​Builder
+                {
+                    Color = new DiscordColor(configSrv.BotConfig.CommonColor),
+                    Title = "Статистика",
+                    Description = $"Данная команда не может быть выполнена в личных сообщениях",
+                    Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
+                });
                 return;
             }
 
             string description = "Участников — Роль\n";
-            
+
+            Dictionary<int, string> roleNamePairs = new Dictionary<int, string>();
+
             foreach (var el in ctx.Guild.Roles)
             {
                 int memberCount = ctx.Guild.Members.Where(x => x.Roles.Contains(el)).Count();
                 if (memberCount > 1)
                 {
-                    description += $"\n{memberCount} — {el.Name}";
+                    roleNamePairs.Add(memberCount, el.Name);
                 }
+            }
+
+            roleNamePairs.OrderByDescending(x => x.Key);
+
+            foreach (var el in roleNamePairs)
+            {
+                description += $"\n{el.Key} — {el.Value}";
             }
 
             var embed = new Discord​Embed​Builder
@@ -163,6 +179,13 @@ namespace OtherWorldBot.Commands
 
             if (ctx.Guild == null)
             {
+                await ctx.RespondAsync(embed: new Discord​Embed​Builder
+                {
+                    Color = new DiscordColor(configSrv.BotConfig.CommonColor),
+                    Title = "Статистика",
+                    Description = $"Данная команда не может быть выполнена в личных сообщениях",
+                    Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
+                });
                 return;
             }
 
