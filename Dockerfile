@@ -9,8 +9,8 @@ RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
-ARG GIT_BRANCH=master
-ARG GIT_COMMIT=unspecified
+ARG GIT_BRANCH=branch
+ARG GIT_COMMIT=commit
 
 RUN dotnet publish -c Release -p:Product=OtherWorldBot-$GIT_BRANCH-$GIT_COMMIT -o out
 
