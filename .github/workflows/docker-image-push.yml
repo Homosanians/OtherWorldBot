@@ -1,10 +1,6 @@
 name: Docker Image Push
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
 
 jobs:
 
@@ -27,4 +23,4 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: homosanians/otherworldbot
         build_args: GIT_COMMIT=${{steps.slug.outputs.sha8}},GIT_BRANCH=${{steps.slug.outputs.branch}}
-        tags: ${{steps.slug.outputs.branch}}
+        tag_with_ref: true
