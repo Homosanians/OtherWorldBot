@@ -61,7 +61,7 @@ namespace OtherWorldBot
             };
 
             Commands = this.Client.UseCommandsNext(commandsConfig);
-            new CommandHandler(Commands, ConfigService);
+            new CommandHandler(Commands, ConfigService, LogService);
 
             await Client.ConnectAsync();
 
