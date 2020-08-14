@@ -55,7 +55,7 @@ namespace OtherWorldBot
             var commandsConfig = new CommandsNextConfiguration
             {
                 StringPrefix = ConfigService.BotConfig.CommandPrefix,
-                EnableDms = false,
+                EnableDms = true,
                 Dependencies = deps,                
                 EnableMentionPrefix = true
             };
