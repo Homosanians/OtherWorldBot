@@ -84,6 +84,8 @@ namespace OtherWorldBot.Commands
         [Aliases("время")]
         public async Task ShowTimeTillUpdate(CommandContext ctx)
         {
+            await ctx.TriggerTypingAsync();
+
             string description = $"Очки стран будут обновлены через ";
             description += string.Format(new TimeWordFormatter(), "{0:W}", scheduleUpdateSrv.GetTimeTillUpdate());
             description += ".";
@@ -102,8 +104,10 @@ namespace OtherWorldBot.Commands
         [Command("version")]
         [Description("Отображает версию текущей сборки")]
         [Aliases("v")]
-        public async Task SendCurrentVersion(CommandContext ctx)
+        public async Task ShowCurrentVersion(CommandContext ctx)
         {
+            await ctx.TriggerTypingAsync();
+
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
 
@@ -112,6 +116,74 @@ namespace OtherWorldBot.Commands
                 Color = new DiscordColor(configSrv.BotConfig.CommonColor),
                 Title = "Версия",
                 Description = $"Сборка {fvi.ProductName}\n{fvi.LegalCopyright}",
+                Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
+            };
+
+            await ctx.RespondAsync(embed: embed);
+        }
+
+        [Command("roles")]
+        [Description("Отображает список ролей, отсортированных по количеству носителей")]
+        public async Task ShowRoles(CommandContext ctx)
+        {
+            await ctx.TriggerTypingAsync();
+
+            string description = "Участников — Роль\n";
+            
+            foreach (var el in ctx.Guild.Roles)
+            {
+                int memberCount = ctx.Guild.Members.Where(x => x.Roles.Contains(el)).Count();
+                if (memberCount > 1)
+                {
+                    description += $"\n{memberCount} — {el.Name}";
+                }
+            }
+
+            var embed = new Discord​Embed​Builder
+            {
+                Color = new DiscordColor(configSrv.BotConfig.CommonColor),
+                Title = "Список ролей",
+                Description = description,
+                Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
+            };
+
+            await ctx.RespondAsync(embed: embed);
+        }
+
+        [Command("stats")]
+        [Description("Отображает статистику по серверу")]
+        public async Task ShowServerStats(CommandContext ctx)
+        {
+            await ctx.TriggerTypingAsync();
+
+            var members = ctx.Guild.Members;
+
+            // Людей всего
+            int membersCount = members.Count;
+            // Людей онлайн (не оффлайн)
+            int membersOnlineCount = members.Where(x => x.Presence != null).Count();
+            // Людей в голосовых чатах сейчас
+            int membersInVoiceChatsCount = members.Where(x => x.VoiceState != null).Where(x => x.VoiceState.Channel != null).Count();
+            // Людей играет
+            int membersPlaying = members.Where(x => x.Presence != null).Where(x => x.Presence.Game != null).Count();
+            // Ботов всего
+            int botsCount = members.Where(x => x.IsBot == true).Count();
+            // Ролей всего
+            int rolesCount = ctx.Guild.Roles.Count;
+            // За 24 часа присоединилось
+            int recentMembersCount = members.Where(x => x.JoinedAt.DateTime.ToUniversalTime().CompareTo(DateTime.UtcNow.AddDays(-1)) == 1).Count();
+
+            var embed = new Discord​Embed​Builder
+            {
+                Color = new DiscordColor(configSrv.BotConfig.CommonColor),
+                Title = "Статистика",
+                Description = $"Пользователей всего {membersCount}\n" +
+                $"Пользователей онлайн {membersOnlineCount}\n" +
+                $"Пользователей в голосовых каналах {membersInVoiceChatsCount}\n" +
+                $"Пользователей играет {membersPlaying}\n" +
+                $"Ботов всего {botsCount}\n" +
+                $"Ролей всего {rolesCount}\n" +
+                $"За последние 24 часа присоединились {recentMembersCount}",
                 Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
             };
 
