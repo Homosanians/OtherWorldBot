@@ -142,22 +142,22 @@ namespace OtherWorldBot.Commands
 
             string description = "Участников — Роль\n";
 
-            Dictionary<int, string> roleNamePairs = new Dictionary<int, string>();
+            List<Tuple<int, string>> rolePairs = new List<Tuple<int, string>>();
 
             foreach (var el in ctx.Guild.Roles)
             {
                 int memberCount = ctx.Guild.Members.Where(x => x.Roles.Contains(el)).Count();
                 if (memberCount > 1)
                 {
-                    roleNamePairs.Add(memberCount, el.Name);
+                    rolePairs.Add(new Tuple<int, string>(memberCount, el.Name));
                 }
             }
 
-            roleNamePairs.OrderByDescending(x => x.Key);
+            rolePairs.OrderByDescending(x => x.Item1);
 
-            foreach (var el in roleNamePairs)
+            foreach (var el in rolePairs)
             {
-                description += $"\n{el.Key} — {el.Value}";
+                description += $"\n{el.Item1} — {el.Item2}";
             }
 
             var embed = new Discord​Embed​Builder
