@@ -5,7 +5,8 @@ VOLUME ["/data"]
 
 # Copy csproj and restore as distinct layers
 COPY *.csproj ./
-RUN dotnet restore
+COPY *.Config ./
+RUN dotnet restore --configfile ./NuGet.Config
 
 # Copy everything else and build
 COPY . ./

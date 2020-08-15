@@ -8,6 +8,7 @@ using System.Text;
 using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext.Exceptions;
 using OtherWorldBot.Services;
+using System.Reflection;
 
 namespace OtherWorldBot.Handlers
 {
@@ -16,7 +17,7 @@ namespace OtherWorldBot.Handlers
         private readonly ConfigService configService;
         private readonly LogService logService;
 
-        public CommandHandler(CommandsNextModule commands, ConfigService configService, LogService logService)
+        public CommandHandler(CommandsNextExtension commands, ConfigService configService, LogService logService)
         {
             this.configService = configService;
             this.logService = logService;
@@ -25,8 +26,9 @@ namespace OtherWorldBot.Handlers
             commands.CommandErrored += Commands_CommandErrored;
 
             // Register the commands
-            commands.RegisterCommands<CommonCommands>();
-            commands.RegisterCommands<AdminCommands>();
+            // commands.RegisterCommands(Assembly.GetExecutingAssembly());
+            commands.RegisterCommands<CommonCommandsModule>();
+            commands.RegisterCommands<AdminCommandsModule>();
         }
 
         private async Task Commands_CommandErrored(CommandErrorEventArgs e)

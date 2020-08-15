@@ -50,7 +50,7 @@ namespace OtherWorldBot.Handlers
 
                 e.Member.SendMessageAsync(embed: embed);
 
-                var role = e.Guild.Roles.FirstOrDefault(x => x.Name == configService.BotConfig.GuestRoleName);
+                var role = e.Guild.Roles.FirstOrDefault(x => x.Value.Name == configService.BotConfig.GuestRoleName).Value;
                 e.Member.GrantRoleAsync(role);
             }
 
@@ -78,7 +78,7 @@ namespace OtherWorldBot.Handlers
             e.Client.DebugLogger.LogMessage(LogLevel.Info, "OtherWorld", "Client is ready to process events.", DateTime.Now);
 
             // Let's set a help command info
-            client.UpdateStatusAsync(new DiscordGame($"{configService.BotConfig.CommandPrefix}show"));
+            client.UpdateStatusAsync(new DiscordActivity($"{configService.BotConfig.CommandPrefix}show", ActivityType.ListeningTo));
 
             return Task.CompletedTask;
         }

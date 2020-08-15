@@ -11,14 +11,15 @@ using DSharpPlus.Interactivity;
 
 namespace OtherWorldBot.Commands
 {
+    [ModuleLifespan(ModuleLifespan.Singleton)]
     [Description("Административные команды.")]
     [RequirePermissions(Permissions.Administrator)]
-    public class AdminCommands
+    public class AdminCommandsModule : BaseCommandModule
     {
         private readonly ConfigService configSrv;
         private readonly DatabaseService databaseSrv;
 
-        public AdminCommands(ConfigService configService, DatabaseService databaseService)
+        public AdminCommandsModule(ConfigService configService, DatabaseService databaseService)
         {
             configSrv = configService;
             databaseSrv = databaseService;
@@ -101,7 +102,7 @@ namespace OtherWorldBot.Commands
             }
             else
             {
-                var interactivity = ctx.Client.GetInteractivityModule();
+                var interactivity = ctx.Client.GetInteractivity();
 
                 var emojiConfirm = DiscordEmoji.FromName(ctx.Client, ":white_check_mark:");
                 var emojiCancel = DiscordEmoji.FromName(ctx.Client, ":x:");
@@ -122,8 +123,8 @@ namespace OtherWorldBot.Commands
                 await sentMessage.CreateReactionAsync(emojiCancel);
 
                 // Wait for reactions
-                var reactionCtx = await interactivity.WaitForReactionAsync(discordEmoji => discordEmoji == emojiConfirm || discordEmoji == emojiCancel, ctx.User, TimeSpan.FromSeconds(60));
-                if (reactionCtx == null)
+                var reactionCtx = await interactivity.WaitForReactionAsync(x => x.Emoji == emojiConfirm || x.Emoji == emojiCancel, ctx.User, TimeSpan.FromSeconds(60));
+                if (reactionCtx.TimedOut)
                 {
                     var embedCountryWasNotDeleted = new DiscordEmbedBuilder
                     {
@@ -132,9 +133,9 @@ namespace OtherWorldBot.Commands
                         Description = $"Время истекло. Страна {countryName} не была удалена.",
                         Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
                     };
-                    await sentMessage.ModifyAsync(embed: embedCountryWasNotDeleted);
+                    await sentMessage.ModifyAsync(embed: embedCountryWasNotDeleted.Build());
                 }
-                else if (reactionCtx.Emoji == emojiConfirm)
+                else if (reactionCtx.Result.Emoji == emojiConfirm)
                 {
                     bool deleted = await databaseSrv.RemoveCountryAsync(foundCountry);
                     if (deleted)
@@ -147,7 +148,7 @@ namespace OtherWorldBot.Commands
                             Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
                         };
 
-                        await sentMessage.ModifyAsync(embed: embedSuccess);
+                        await sentMessage.ModifyAsync(embed: embedSuccess.Build());
                     }
                     else
                     {
@@ -159,10 +160,10 @@ namespace OtherWorldBot.Commands
                             Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
                         };
 
-                        await sentMessage.ModifyAsync(embed: embedError);
+                        await sentMessage.ModifyAsync(embed: embedError.Build());
                     }
                 }
-                else if (reactionCtx.Emoji == emojiCancel)
+                else if (reactionCtx.Result.Emoji == emojiCancel)
                 {
                     var embedCancel = new DiscordEmbedBuilder
                     {
@@ -171,7 +172,7 @@ namespace OtherWorldBot.Commands
                         Description = $"Вы отменили действие. Страна {countryName} не была удалена.",
                         Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
                     };
-                    await sentMessage.ModifyAsync(embed: embedCancel);
+                    await sentMessage.ModifyAsync(embed: embedCancel.Build());
                 }
             }
         }
