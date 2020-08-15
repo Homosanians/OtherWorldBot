@@ -36,10 +36,6 @@ namespace OtherWorldBot.Modules
 
             var interactivity = ctx.Client.GetInteractivity();
 
-            var emoji = DiscordEmoji.FromName(ctx.Client, ":heart");
-
-            // await ctx.RespondAsync($"{emoji} Pong! Ping: {ctx.Client.Ping}ms");
-
             var sentMessage = await ctx.RespondAsync(embed: new Discord​Embed​Builder
             {
                 Color = new DiscordColor(configSrv.BotConfig.CommonColor),
@@ -48,7 +44,7 @@ namespace OtherWorldBot.Modules
                 Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
             });
 
-            var messageCtx = interactivity.WaitForMessageAsync(ctx.User, MessageType.Default, TimeSpan.FromSeconds(60));
+            var messageCtx = interactivity.WaitForMessageAsync(x => x.Attachments.Count > 0, TimeSpan.FromSeconds(60)).Result;
 
             if (messageCtx.TimedOut)
             {
@@ -60,9 +56,44 @@ namespace OtherWorldBot.Modules
                     Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
                 }.Build());
             }
-            else if (messageCtx)
+            else
             {
+                var postsChannel = await ctx.Client.GetChannelAsync(configSrv.BotConfig.OthergramConfig.PostsChannelId);
 
+                if (postsChannel != null)
+                {
+                    var postMessage = await ctx.Client.SendMessageAsync(postsChannel, embed: new Discord​Embed​Builder
+                    {
+                        Color = new DiscordColor(configSrv.BotConfig.OthergramConfig.PostsColor),
+                        Author = new DiscordEmbedBuilder.EmbedAuthor { Name = messageCtx.Result.Author.Username, IconUrl = messageCtx.Result.Author.AvatarUrl },
+                        Title = "Новая фотография!",
+                        ImageUrl = messageCtx.Result.Attachments[0].Url,
+                        Description = messageCtx.Result.Content,
+                        Footer = new DiscordEmbedBuilder.EmbedFooter { Text = $"Для публикации напишите {configSrv.BotConfig.CommandPrefix}othergram © Other World" }
+                    });
+
+                    var emoji = DiscordEmoji.FromName(ctx.Client, configSrv.BotConfig.OthergramConfig.PostsEmoji);
+
+                    await postMessage.CreateReactionAsync(emoji);
+
+                    await sentMessage.ModifyAsync(embed: new Discord​Embed​Builder
+                    {
+                        Color = new DiscordColor(configSrv.BotConfig.GoodColor),
+                        Title = "Публикация фотографии",
+                        Description = $"Фотография была успешно опубликована!",
+                        Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
+                    }.Build());
+                }
+                else
+                {
+                    await sentMessage.ModifyAsync(embed: new Discord​Embed​Builder
+                    {
+                        Color = new DiscordColor(configSrv.BotConfig.BadColor),
+                        Title = "Публикация фотографии",
+                        Description = $"Произошла внутренняя ошибка. Похоже, канал для публикаций удалён.",
+                        Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
+                    }.Build());
+                }
             }
         }
     }
