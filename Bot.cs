@@ -16,7 +16,6 @@ namespace OtherWorldBot
     {
         public DiscordClient Client { get; set; }
         public InteractivityExtension Interactivity { get; set; }
-        public CommandsNextExtension Commands { get; set; }
         public LogService LogService { get; set; }
         public ConfigService ConfigService { get; set; }
         public DatabaseService DatabaseService { get; set; }
