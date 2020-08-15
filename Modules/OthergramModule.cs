@@ -44,7 +44,7 @@ namespace OtherWorldBot.Modules
                 Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
             });
 
-            var messageCtx = interactivity.WaitForMessageAsync(x => x.Attachments.Count > 0, TimeSpan.FromSeconds(60)).Result;
+            var messageCtx = await interactivity.WaitForMessageAsync(x => x.Attachments.Count > 0, TimeSpan.FromSeconds(120));
 
             if (messageCtx.TimedOut)
             {
