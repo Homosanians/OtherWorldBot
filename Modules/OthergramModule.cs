@@ -34,18 +34,36 @@ namespace OtherWorldBot.Modules
         {
             await ctx.TriggerTypingAsync();
 
+            var interactivity = ctx.Client.GetInteractivity();
+
             var emoji = DiscordEmoji.FromName(ctx.Client, ":heart");
 
             // await ctx.RespondAsync($"{emoji} Pong! Ping: {ctx.Client.Ping}ms");
 
-            await ctx.RespondAsync(embed: new Discord​Embed​Builder
+            var sentMessage = await ctx.RespondAsync(embed: new Discord​Embed​Builder
             {
                 Color = new DiscordColor(configSrv.BotConfig.CommonColor),
                 Title = "Публикация фотографии",
                 Description = $"Отправьте фотографию, которую вы хотите опубликовать.",
                 Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
             });
-            return;
+
+            var messageCtx = interactivity.WaitForMessageAsync(ctx.User, MessageType.Default, TimeSpan.FromSeconds(60));
+
+            if (messageCtx.TimedOut)
+            {
+                await sentMessage.ModifyAsync(embed: new Discord​Embed​Builder
+                {
+                    Color = new DiscordColor(configSrv.BotConfig.WarningColor),
+                    Title = "Публикация фотографии",
+                    Description = $"Время истекло. Фотография не была опубликована.",
+                    Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
+                }.Build());
+            }
+            else if (messageCtx)
+            {
+
+            }
         }
     }
 }
