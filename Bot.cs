@@ -60,7 +60,7 @@ namespace OtherWorldBot
                 EnableMentionPrefix = true,
                 EnableDefaultHelp = false
             });
-
+            
             new EventsHandler(Client, ConfigService);
             new CommandHandler(Client.GetCommandsNext(), ConfigService, LogService);
 

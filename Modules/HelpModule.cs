@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace OtherWorldBot.Modules
 {
     [ModuleLifespan(ModuleLifespan.Transient)]
-    public class DefaultHelpModule : BaseCommandModule
+    public class HelpModule : BaseCommandModule
     {
         [Command("help"), Description("Displays command help.")]
         public async Task DefaultHelpAsync(CommandContext ctx, [Description("Command to provide help for.")] params string[] command)
