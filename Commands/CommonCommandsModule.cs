@@ -14,14 +14,15 @@ using System.Diagnostics;
 
 namespace OtherWorldBot.Commands
 {
+    [ModuleLifespan(ModuleLifespan.Singleton)]
     [Description("Команды пользователя.")]
-    public class CommonCommands : BaseCommandModule
+    public class CommonCommandsModule : BaseCommandModule
     {
         private readonly ConfigService configSrv;
         private readonly DatabaseService databaseSrv;
         private readonly ScheduleUpdateService scheduleUpdateSrv;
 
-        public CommonCommands(ConfigService configService, DatabaseService databaseService, ScheduleUpdateService scheduleUpdateService)
+        public CommonCommandsModule(ConfigService configService, DatabaseService databaseService, ScheduleUpdateService scheduleUpdateService)
         {
             configSrv = configService;
             databaseSrv = databaseService;

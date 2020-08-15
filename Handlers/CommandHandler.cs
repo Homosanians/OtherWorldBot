@@ -27,8 +27,8 @@ namespace OtherWorldBot.Handlers
 
             // Register the commands
             // commands.RegisterCommands(Assembly.GetExecutingAssembly());
-            commands.RegisterCommands<CommonCommands>();
-            commands.RegisterCommands<AdminCommands>();
+            commands.RegisterCommands<CommonCommandsModule>();
+            commands.RegisterCommands<AdminCommandsModule>();
         }
 
         private async Task Commands_CommandErrored(CommandErrorEventArgs e)

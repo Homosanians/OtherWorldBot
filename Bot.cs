@@ -57,7 +57,8 @@ namespace OtherWorldBot
                 StringPrefixes = new[] { ConfigService.BotConfig.CommandPrefix },
                 EnableDms = true,
                 Services = deps,
-                EnableMentionPrefix = true
+                EnableMentionPrefix = true,
+                EnableDefaultHelp = false
             });
 
             new EventsHandler(Client, ConfigService);

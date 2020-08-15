@@ -11,14 +11,15 @@ using DSharpPlus.Interactivity;
 
 namespace OtherWorldBot.Commands
 {
+    [ModuleLifespan(ModuleLifespan.Singleton)]
     [Description("Административные команды.")]
     [RequirePermissions(Permissions.Administrator)]
-    public class AdminCommands : BaseCommandModule
+    public class AdminCommandsModule : BaseCommandModule
     {
         private readonly ConfigService configSrv;
         private readonly DatabaseService databaseSrv;
 
-        public AdminCommands(ConfigService configService, DatabaseService databaseService)
+        public AdminCommandsModule(ConfigService configService, DatabaseService databaseService)
         {
             configSrv = configService;
             databaseSrv = databaseService;
