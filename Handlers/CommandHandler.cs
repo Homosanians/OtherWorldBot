@@ -9,6 +9,9 @@ using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext.Exceptions;
 using OtherWorldBot.Services;
 using System.Reflection;
+using System.Linq;
+using DSharpPlus.CommandsNext.Attributes;
+using System.Security.Cryptography.X509Certificates;
 
 namespace OtherWorldBot.Handlers
 {
@@ -38,19 +41,49 @@ namespace OtherWorldBot.Handlers
             {
                 return;
             }
-
-            // Check if the error is a result of lack of required permissions
+            
+            // Check if the error is a result of failed checks
             if (e.Exception is ChecksFailedException)
             {
-                var emoji = DiscordEmoji.FromName(e.Context.Client, ":no_entry:");
-
-                var embed = new DiscordEmbedBuilder
+                // Check if the error is a result of message in DM when only guild is allowed
+                if (e.Command.ExecutionChecks.Any(x => x.GetType() == typeof(RequireGuildAttribute)))
                 {
-                    Title = "Доступ запрещен",
-                    Description = $"{emoji} У вас нет привилегий для выполнения этой команды.",
-                    Color = new DiscordColor(configService.BotConfig.BadColor)
-                };
-                await e.Context.RespondAsync(embed: embed);
+                    var emoji = DiscordEmoji.FromName(e.Context.Client, ":no_entry:");
+
+                    await e.Context.RespondAsync(embed: new DiscordEmbedBuilder
+                    {
+                        Title = "Выполнение остановлено",
+                        Description = $"{emoji} Команда не может быть выполнена в личных сообщениях. Используйте на сервере.",
+                        Color = new DiscordColor(configService.BotConfig.BadColor)
+                    });
+                }
+
+                // Check if the error is a result of message in guild when only DM is allowed
+                else if (e.Command.ExecutionChecks.Any(x => x.GetType() == typeof(RequireDirectMessageAttribute)))
+                {
+                    var emoji = DiscordEmoji.FromName(e.Context.Client, ":no_entry:");
+
+                    await e.Context.RespondAsync(embed: new DiscordEmbedBuilder
+                    {
+                        Title = "Выполнение остановлено",
+                        Description = $"{emoji} Команда не может быть выполнена на сервере. Используйте в личных сообщениях.",
+                        Color = new DiscordColor(configService.BotConfig.BadColor)
+                    });
+                }
+                // The error is a result of lack of required permissions
+                else
+                {
+                    var emoji = DiscordEmoji.FromName(e.Context.Client, ":no_entry:");
+
+                    await e.Context.RespondAsync(embed: new DiscordEmbedBuilder
+                    {
+                        Title = "Доступ запрещен",
+                        Description = $"{emoji} У вас нет привилегий для выполнения этой команды.",
+                        Color = new DiscordColor(configService.BotConfig.BadColor)
+                    });
+                }
+
+                return;
             }
 
             logService.Error(LogService.Application.Bot, $"{e.Context.User.Username} tried executing '{e.Command?.QualifiedName ?? "<unknown command>"}' but it errored: {e.Exception.GetType()}: {e.Exception.Message ?? "<no message>"}\n{e.Exception.StackTrace}");
