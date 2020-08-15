@@ -8,7 +8,6 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
-using OtherWorldBot.Attributes;
 
 namespace OtherWorldBot.Modules
 {
