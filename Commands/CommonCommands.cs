@@ -15,7 +15,7 @@ using System.Diagnostics;
 namespace OtherWorldBot.Commands
 {
     [Description("Команды пользователя.")]
-    public class CommonCommands
+    public class CommonCommands : BaseCommandModule
     {
         private readonly ConfigService configSrv;
         private readonly DatabaseService databaseSrv;
@@ -146,10 +146,10 @@ namespace OtherWorldBot.Commands
 
             foreach (var el in ctx.Guild.Roles)
             {
-                int memberCount = ctx.Guild.Members.Where(x => x.Roles.Contains(el)).Count();
+                int memberCount = ctx.Guild.Members.Where(x => x.Value.Roles.Contains(el.Value)).Count();
                 if (memberCount > 1)
                 {
-                    rolePairs.Add(new Tuple<int, string>(memberCount, el.Name));
+                    rolePairs.Add(new Tuple<int, string>(memberCount, el.Value.Name));
                 }
             }
 
@@ -192,19 +192,19 @@ namespace OtherWorldBot.Commands
             var members = ctx.Guild.Members;
             
             // Людей всего
-            int membersCount = members.Where(x => x.IsBot == false).Count();
+            int membersCount = members.Where(x => x.Value.IsBot == false).Count();
             // Людей онлайн (не оффлайн)
-            int membersOnlineCount = members.Where(x => x.IsBot == false).Where(x => x.Presence != null).Count();
+            int membersOnlineCount = members.Where(x => x.Value.IsBot == false).Where(x => x.Value.Presence != null).Count();
             // Людей в голосовых чатах сейчас
-            int membersInVoiceChatsCount = members.Where(x => x.IsBot == false).Where(x => x.VoiceState != null).Where(x => x.VoiceState.Channel != null).Count();
+            int membersInVoiceChatsCount = members.Where(x => x.Value.IsBot == false).Where(x => x.Value.VoiceState != null).Where(x => x.Value.VoiceState.Channel != null).Count();
             // Людей играет
-            int membersPlaying = members.Where(x => x.IsBot == false).Where(x => x.Presence != null).Where(x => x.Presence.Game != null).Count();
+            int membersPlaying = members.Where(x => x.Value.IsBot == false).Where(x => x.Value.Presence != null).Where(x => x.Value.Presence.Activity.ActivityType == ActivityType.Playing).Count();
             // Ботов всего
-            int botsCount = members.Where(x => x.IsBot == true).Count();
+            int botsCount = members.Where(x => x.Value.IsBot == true).Count();
             // Ролей всего
             int rolesCount = ctx.Guild.Roles.Count;
             // За 24 часа присоединилось
-            int recentMembersCount = members.Where(x => x.JoinedAt.DateTime.CompareTo(DateTime.Now.AddDays(-1)) == 1).Count();
+            int recentMembersCount = members.Where(x => x.Value.JoinedAt.DateTime.CompareTo(DateTime.Now.AddDays(-1)) == 1).Count();
 
             var embed = new Discord​Embed​Builder
             {

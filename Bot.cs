@@ -5,14 +5,18 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.Interactivity;
 using OtherWorldBot.Services;
 using OtherWorldBot.Handlers;
+using Microsoft.Extensions.DependencyInjection;
+using OtherWorldBot.Entities;
+using System.Linq;
+using DSharpPlus.Interactivity.Enums;
 
 namespace OtherWorldBot
 {
     public class Bot
     {
         public DiscordClient Client { get; set; }
-        public InteractivityModule Interactivity { get; set; }
-        public CommandsNextModule Commands { get; set; }
+        public InteractivityExtension Interactivity { get; set; }
+        public CommandsNextExtension Commands { get; set; }
         public LogService LogService { get; set; }
         public ConfigService ConfigService { get; set; }
         public DatabaseService DatabaseService { get; set; }
@@ -37,30 +41,28 @@ namespace OtherWorldBot
             DatabaseService = new DatabaseService();
             ScheduleUpdateService = new ScheduleUpdateService(LogService, ConfigService, DatabaseService);
            
-            var deps = new DependencyCollectionBuilder()
-                .AddInstance(ConfigService)
-                .AddInstance(LogService)
-                .AddInstance(DatabaseService)
-                .AddInstance(ScheduleUpdateService)
-                .AddInstance(new EventsHandler(Client, ConfigService))
-                .Build();
+            var deps = new ServiceCollection()
+                .AddSingleton(ConfigService)
+                .AddSingleton(LogService)
+                .AddSingleton(DatabaseService)
+                .AddSingleton(ScheduleUpdateService)
+                .AddSingleton(new EventsHandler(Client, ConfigService))
+                .BuildServiceProvider();
             
             Client.UseInteractivity(new InteractivityConfiguration
             {
-                PaginationBehaviour = TimeoutBehaviour.Ignore,
-                PaginationTimeout = TimeSpan.FromMinutes(5),
+                PaginationBehaviour = PaginationBehaviour.Ignore,
                 Timeout = TimeSpan.FromMinutes(2)
             });
-            
-            var commandsConfig = new CommandsNextConfiguration
-            {
-                StringPrefix = ConfigService.BotConfig.CommandPrefix,
-                EnableDms = true,
-                Dependencies = deps,                
-                EnableMentionPrefix = true
-            };
 
-            Commands = this.Client.UseCommandsNext(commandsConfig);
+            Client.UseCommandsNext(new CommandsNextConfiguration
+            {
+                StringPrefixes = new[] { ConfigService.BotConfig.CommandPrefix },
+                EnableDms = true,
+                Services = deps,
+                EnableMentionPrefix = true
+            });
+
             new CommandHandler(Commands, ConfigService, LogService);
 
             await Client.ConnectAsync();
