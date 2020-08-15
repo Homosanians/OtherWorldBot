@@ -29,7 +29,7 @@ namespace OtherWorldBot.Modules
         [RequireDirectMessage]
         [Command("othergram")]
         [Description("Публикация новой фотографии.")]
-        [Aliases("og")]
+        [Aliases("og", "post")]
         public async Task AddImagePost(CommandContext ctx)
         {
             await ctx.TriggerTypingAsync();
@@ -40,7 +40,7 @@ namespace OtherWorldBot.Modules
             {
                 Color = new DiscordColor(configSrv.BotConfig.CommonColor),
                 Title = "Публикация фотографии",
-                Description = $"Отправьте фотографию, которую вы хотите опубликовать.",
+                Description = $"Введите описание и прикрепите саму фотографию, которую вы хотите опубликовать.",
                 Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
             });
 
