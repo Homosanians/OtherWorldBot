@@ -5,7 +5,7 @@ VOLUME ["/data"]
 
 # Copy csproj and restore as distinct layers
 COPY *.csproj ./
-RUN dotnet restore
+RUN dotnet restore -s https://nuget.emzi0767.com/api/v3/index.json
 
 # Copy everything else and build
 COPY . ./
