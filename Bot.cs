@@ -62,8 +62,8 @@ namespace OtherWorldBot
                 Services = deps,
                 EnableMentionPrefix = true
             });
-
-            new CommandHandler(Commands, ConfigService, LogService);
+            
+            new CommandHandler(Client.GetCommandsNext(), ConfigService, LogService);
 
             await Client.ConnectAsync();
 
