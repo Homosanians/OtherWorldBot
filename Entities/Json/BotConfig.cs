@@ -1,5 +1,6 @@
 ﻿using DSharpPlus;
 using Newtonsoft.Json;
+using OtherWorldBot.Entities.Json;
 using System.IO;
 
 namespace OtherWorldBot.Entities
@@ -38,5 +39,8 @@ namespace OtherWorldBot.Entities
 
         [JsonProperty("CommonColor")]
         public string CommonColor { get; private set; } = "404040";
+
+        [JsonProperty("OthergramConfig")]
+        public OthergramConfig OthergramConfig { get; private set; } = new OthergramConfig();
     }
 }
