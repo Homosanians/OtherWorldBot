@@ -132,18 +132,6 @@ namespace OtherWorldBot.Modules
         {
             await ctx.TriggerTypingAsync();
 
-            if (ctx.Guild == null)
-            {
-                await ctx.RespondAsync(embed: new Discord​Embed​Builder
-                {
-                    Color = new DiscordColor(configSrv.BotConfig.BadColor),
-                    Title = "Ошибка",
-                    Description = $"Данная команда не может быть выполнена в личных сообщениях",
-                    Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
-                });
-                return;
-            }
-
             string description = "Участников — Роль\n";
 
             List<Tuple<int, string>> rolePairs = new List<Tuple<int, string>>();
@@ -181,18 +169,6 @@ namespace OtherWorldBot.Modules
         public async Task ShowServerStats(CommandContext ctx)
         {
             await ctx.TriggerTypingAsync();
-
-            if (ctx.Guild == null)
-            {
-                await ctx.RespondAsync(embed: new Discord​Embed​Builder
-                {
-                    Color = new DiscordColor(configSrv.BotConfig.BadColor),
-                    Title = "Ошибка",
-                    Description = $"Данная команда не может быть выполнена в личных сообщениях",
-                    Footer = new DiscordEmbedBuilder.EmbedFooter { Text = "Other World" }
-                });
-                return;
-            }
 
             var members = ctx.Guild.Members;
             
