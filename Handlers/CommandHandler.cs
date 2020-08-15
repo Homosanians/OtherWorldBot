@@ -53,7 +53,7 @@ namespace OtherWorldBot.Handlers
                     await e.Context.RespondAsync(embed: new DiscordEmbedBuilder
                     {
                         Title = "Выполнение остановлено",
-                        Description = $"{emoji} Команда не может быть выполнена в личных сообщениях. Используйте на сервере.",
+                        Description = $"{emoji} Данная команда не может быть выполнена в личных сообщениях. Используйте на сервере.",
                         Color = new DiscordColor(configService.BotConfig.BadColor)
                     });
                 }
@@ -66,7 +66,7 @@ namespace OtherWorldBot.Handlers
                     await e.Context.RespondAsync(embed: new DiscordEmbedBuilder
                     {
                         Title = "Выполнение остановлено",
-                        Description = $"{emoji} Команда не может быть выполнена на сервере. Используйте в личных сообщениях.",
+                        Description = $"{emoji} Данная команда не может быть выполнена на сервере. Используйте в личных сообщениях.",
                         Color = new DiscordColor(configService.BotConfig.BadColor)
                     });
                 }
