@@ -9,7 +9,7 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 
-namespace OtherWorldBot.Commands
+namespace OtherWorldBot.Modules
 {
     [ModuleLifespan(ModuleLifespan.Singleton)]
     [Description("Административные команды.")]

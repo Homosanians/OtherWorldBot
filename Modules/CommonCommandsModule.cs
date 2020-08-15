@@ -12,7 +12,7 @@ using DSharpPlus.Interactivity;
 using System.Reflection;
 using System.Diagnostics;
 
-namespace OtherWorldBot.Commands
+namespace OtherWorldBot.Modules
 {
     [ModuleLifespan(ModuleLifespan.Singleton)]
     [Description("Команды пользователя.")]

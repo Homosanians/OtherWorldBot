@@ -1,6 +1,6 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
-using OtherWorldBot.Commands;
+using OtherWorldBot.Modules;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -59,7 +59,7 @@ namespace OtherWorldBot.Handlers
         private Task Commands_CommandExecuted(CommandExecutionEventArgs e)
         {
             logService.Debug(LogService.Application.Bot, $"{e.Context.User.Username} successfully executed '{e.Command.QualifiedName}'");
-
+            
             return Task.CompletedTask;
         }
     }
