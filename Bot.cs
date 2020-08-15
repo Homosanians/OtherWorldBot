@@ -58,7 +58,7 @@ namespace OtherWorldBot
                 EnableDms = true,
                 Services = deps,
                 EnableMentionPrefix = true,
-                EnableDefaultHelp = false
+                EnableDefaultHelp = true
             });
 
             new EventsHandler(Client, ConfigService);
