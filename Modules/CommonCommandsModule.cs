@@ -41,6 +41,7 @@ namespace OtherWorldBot.Modules
             await ctx.RespondAsync($"{emoji} Pong! Ping: {ctx.Client.Ping}ms");
         }
 
+        [RequireGuild]
         [Command("show")]
         [Description("Показывает все страны")]
         [Aliases("показать", "страны", "countries", "list", "список")]
@@ -80,6 +81,7 @@ namespace OtherWorldBot.Modules
             }
         }
 
+        [RequireGuild]
         [Command("time")]
         [Description("Показывается время до обновления")]
         [Aliases("время")]
@@ -123,6 +125,7 @@ namespace OtherWorldBot.Modules
             await ctx.RespondAsync(embed: embed);
         }
 
+        [RequireGuild]
         [Command("roles")]
         [Description("Отображает список ролей, отсортированных по количеству носителей")]
         public async Task ShowRoles(CommandContext ctx)
@@ -172,6 +175,7 @@ namespace OtherWorldBot.Modules
             await ctx.RespondAsync(embed: embed);
         }
 
+        [RequireGuild]
         [Command("stats")]
         [Description("Отображает статистику по серверу")]
         public async Task ShowServerStats(CommandContext ctx)
