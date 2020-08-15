@@ -37,15 +37,13 @@ namespace OtherWorldBot
 
             Client = new DiscordClient(cfg);
             LogService = new LogService(Client);
-            DatabaseService = new DatabaseService();
             ScheduleUpdateService = new ScheduleUpdateService(LogService, ConfigService, DatabaseService);
            
             var deps = new ServiceCollection()
                 .AddSingleton(ConfigService)
                 .AddSingleton(LogService)
-                .AddSingleton(DatabaseService)
                 .AddSingleton(ScheduleUpdateService)
-                .AddSingleton(new EventsHandler(Client, ConfigService))
+                .AddSingleton<DatabaseService>()
                 .BuildServiceProvider();
             
             Client.UseInteractivity(new InteractivityConfiguration
@@ -61,7 +59,8 @@ namespace OtherWorldBot
                 Services = deps,
                 EnableMentionPrefix = true
             });
-            
+
+            new EventsHandler(Client, ConfigService);
             new CommandHandler(Client.GetCommandsNext(), ConfigService, LogService);
 
             await Client.ConnectAsync();
