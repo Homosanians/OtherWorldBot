@@ -208,7 +208,7 @@ namespace OtherWorldBot.Modules
 
                     if (successed)
                     {
-                        var embed = new Discord​Embed​Builder()
+                        var embed = new Discord​Embed​Builder
                         {
                             Color = new DiscordColor(configSrv.BotConfig.GoodColor),
                             Title = "Начисление очков бесчестия",
@@ -220,7 +220,7 @@ namespace OtherWorldBot.Modules
                     }
                     else
                     {
-                        var embed = new Discord​Embed​Builder()
+                        var embed = new Discord​Embed​Builder
                         {
                             Color = new DiscordColor(configSrv.BotConfig.BadColor),
                             Title = "Начисление очков бесчестия",
