@@ -26,7 +26,12 @@ namespace OtherWorldBot.Utils
             string mm = GetCase(time.Minutes, minutes);
             string ss = GetCase(time.Seconds, seconds);
 
-            return string.Format("{0:%h} {1} {0:%m} {2} {0:%s} {3}", time, hh, mm, ss);
+            if (time.Hours == 0 && time.Minutes == 0)
+                return string.Format("{0:%s} {1}", time, ss);
+            else if (time.Hours == 0)
+                return string.Format("{0:%m} {1} {0:%s} {2}", time, mm, ss);
+            else
+                return string.Format("{0:%h} {1} {0:%m} {2} {0:%s} {3}", time, hh, mm, ss);
         }
 
         static string GetCase(int value, string[] options)
