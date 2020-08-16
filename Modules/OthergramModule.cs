@@ -27,6 +27,7 @@ namespace OtherWorldBot.Modules
         }
 
         [RequireDirectMessage]
+        [Cooldown(2, 60, CooldownBucketType.User)]
         [Command("othergram")]
         [Description("Публикация новой фотографии.")]
         [Aliases("og", "post")]
