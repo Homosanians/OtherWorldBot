@@ -46,14 +46,29 @@ namespace OtherWorldBot.Handlers
             // Check if the error is a result of failed checks
             if (e.Exception is ChecksFailedException)
             {
+                // Check if the error is a result of message cooldown
+                if (e.Command.ExecutionChecks.Any(x => x.GetType() == typeof(CooldownAttribute)))
+                {
+                    var emoji = DiscordEmoji.FromName(e.Context.Client, ":no_entry:");
+
+                    var cooldown = e.Command.ExecutionChecks.First(x => x.GetType() == typeof(CooldownAttribute)) as CooldownAttribute;
+
+                    await e.Context.RespondAsync(embed: new DiscordEmbedBuilder
+                    {
+                        Title = "Команда не была выполнена",
+                        Description = $"{emoji} Команда может быть выполнена {cooldown.MaxUses} раза поряд перед задержкой. " +
+                        $"Команда будет снова доступна через {(int) cooldown.GetRemainingCooldown(e.Context).TotalSeconds} секунд.",
+                        Color = new DiscordColor(configService.BotConfig.BadColor)
+                    });
+                }
                 // Check if the error is a result of message in DM when only guild is allowed
-                if (e.Command.ExecutionChecks.Any(x => x.GetType() == typeof(RequireGuildAttribute)))
+                else if (e.Command.ExecutionChecks.Any(x => x.GetType() == typeof(RequireGuildAttribute)))
                 {
                     var emoji = DiscordEmoji.FromName(e.Context.Client, ":no_entry:");
 
                     await e.Context.RespondAsync(embed: new DiscordEmbedBuilder
                     {
-                        Title = "Выполнение остановлено",
+                        Title = "Команда не была выполнена",
                         Description = $"{emoji} Данная команда не может быть выполнена в личных сообщениях. Используйте на сервере.",
                         Color = new DiscordColor(configService.BotConfig.BadColor)
                     });
@@ -66,7 +81,7 @@ namespace OtherWorldBot.Handlers
 
                     await e.Context.RespondAsync(embed: new DiscordEmbedBuilder
                     {
-                        Title = "Выполнение остановлено",
+                        Title = "Команда не была выполнена",
                         Description = $"{emoji} Данная команда не может быть выполнена на сервере. Используйте в личных сообщениях.",
                         Color = new DiscordColor(configService.BotConfig.BadColor)
                     });
