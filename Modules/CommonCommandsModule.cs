@@ -90,8 +90,7 @@ namespace OtherWorldBot.Modules
             await ctx.TriggerTypingAsync();
 
             string description = $"Очки стран будут обновлены через ";
-            description += string.Format(new TimeWordFormatter(), "{0:W}", scheduleUpdateSrv.GetTimeTillUpdate());
-            description += ".";
+            description += string.Format(new TimeWordFormatter(), "{0:W}.", scheduleUpdateSrv.GetTimeTillUpdate());
 
             var embed = new Discord​Embed​Builder
             {
