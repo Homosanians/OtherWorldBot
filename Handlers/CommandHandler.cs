@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Linq;
 using DSharpPlus.CommandsNext.Attributes;
 using System.Security.Cryptography.X509Certificates;
+using OtherWorldBot.Utils;
 
 namespace OtherWorldBot.Handlers
 {
@@ -52,12 +53,13 @@ namespace OtherWorldBot.Handlers
                     var emoji = DiscordEmoji.FromName(e.Context.Client, ":no_entry:");
 
                     var cooldown = e.Command.ExecutionChecks.First(x => x.GetType() == typeof(CooldownAttribute)) as CooldownAttribute;
+                    string cooldownRemaining = string.Format(new TimeWordFormatter(), "{0:W}", cooldown.GetRemainingCooldown(e.Context));
 
                     await e.Context.RespondAsync(embed: new DiscordEmbedBuilder
                     {
                         Title = "Команда не была выполнена",
-                        Description = $"{emoji} Команда может быть выполнена {cooldown.MaxUses} раза поряд перед задержкой. " +
-                        $"Команда будет снова доступна через {(int) cooldown.GetRemainingCooldown(e.Context).TotalSeconds} секунд.",
+                        Description = $"{emoji} Команда может быть выполнена {cooldown.MaxUses} раза подряд перед задержкой. " +
+                        $"Команда будет снова доступна через {cooldownRemaining}.",
                         Color = new DiscordColor(configService.BotConfig.BadColor)
                     });
                 }
